@@ -1,0 +1,26 @@
+backup:
+  source_dirs:
+    - obsidian-vault/
+    - codex/
+    - docs/
+    - memory/
+  exclude:
+    - memory/data/
+    - "**/*.sqlite3"
+    - "**/qdrant/**"
+  frequency: daily
+  retention_days: 30
+
+restore:
+  rebuild_indexes_from_markdown: true
+  require_doctor_before_restore_complete: true
+  retrieval_smoke_test_required: true
+
+drills:
+  cadence: monthly
+  verify:
+    - vault_restore
+    - config_load
+    - doctor_run
+    - index_rebuild
+    - known_note_retrieval

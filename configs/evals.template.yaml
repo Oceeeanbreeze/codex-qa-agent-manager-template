@@ -1,0 +1,24 @@
+datasets:
+  routing: evals/routing-cases.yaml
+  retrieval: evals/retrieval-cases.yaml
+  reviewer: evals/reviewer-cases.yaml
+  coverage: evals/coverage-cases.yaml
+  browser_validation: evals/browser-validation-cases.yaml
+
+metrics:
+  route_accuracy_target: 0.95
+  retrieval_precision_at_5_target: 0.80
+  reviewer_quality_target: 0.80
+  coverage_decision_target: 0.85
+  verification_explicitness_target: 0.95
+
+gates:
+  block_scale_up_if:
+    - route_accuracy_below_target
+    - retrieval_precision_below_target
+    - reviewer_quality_below_target
+    - verification_explicitness_below_target
+
+reports:
+  directory: reports/evals
+  keep_history: true

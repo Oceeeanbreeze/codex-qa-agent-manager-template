@@ -1,0 +1,125 @@
+vault_path: <YOUR_VAULT_PATH>
+storage_dir: <YOUR_STORAGE_PATH>
+ollama:
+  base_url: <YOUR_OLLAMA_URL>
+  model: <YOUR_MODEL_NAME>
+memory:
+  extensions:
+    - .md
+  exclude_dirs:
+    - .obsidian
+    - .trash
+    - .git
+  chunk_size: 1200
+  chunk_overlap: 200
+search:
+  vector_top_k: 8
+  lexical_top_k: 8
+  final_top_k: 8
+archiving:
+  inbox_dir: Inbox/
+  conversations_dir: Conversations/
+  notes_dir: Notes/
+  projects_dir: Projects/
+  important_dir: Important/
+  default_category: conversations
+agents:
+  archivist:
+    collection: agent_archivist_memory
+    storage_subdir: agents/archivist
+    include_paths:
+      - Shared/
+      - Inbox/
+      - Conversations/
+      - Important/
+      - Projects/
+      - Notes/
+    query_hint: note hygiene, exact remembered statements, knowledge organization
+  router:
+    collection: agent_router_memory
+    storage_subdir: agents/router
+    include_paths:
+      - Shared/
+      - Decisions/
+      - Projects/
+      - Notes/
+      - Important/
+    query_hint: routing priorities, task classification, acceptance criteria
+  researcher:
+    collection: agent_researcher_memory
+    storage_subdir: agents/researcher
+    include_paths:
+      - Shared/
+      - Projects/
+      - Notes/
+      - Logs/
+      - Decisions/
+    query_hint: investigations, traces, findings, prior incidents
+  architect:
+    collection: agent_architect_memory
+    storage_subdir: agents/architect
+    include_paths:
+      - Shared/
+      - Decisions/
+      - Projects/
+      - Playbooks/
+    query_hint: architecture decisions, invariants, tradeoffs
+  implementer:
+    collection: agent_implementer_memory
+    storage_subdir: agents/implementer
+    include_paths:
+      - Shared/
+      - Projects/
+      - Playbooks/
+      - Notes/
+    query_hint: implementation patterns, selectors, seams
+  reviewer:
+    collection: agent_reviewer_memory
+    storage_subdir: agents/reviewer
+    include_paths:
+      - Shared/
+      - Logs/
+      - Decisions/
+      - Playbooks/
+      - Important/
+    query_hint: regressions, edge cases, failure patterns
+  tester:
+    collection: agent_tester_memory
+    storage_subdir: agents/tester
+    include_paths:
+      - Shared/
+      - Logs/
+      - Playbooks/
+      - Projects/
+      - Notes/
+    query_hint: checklists, repro steps, verification notes
+  test-strategist:
+    collection: agent_test_strategist_memory
+    storage_subdir: agents/test-strategist
+    include_paths:
+      - Shared/
+      - Decisions/
+      - Playbooks/
+      - Projects/
+    query_hint: coverage strategy, ROI, suite design
+  test-automation-engineer:
+    collection: agent_test_automation_engineer_memory
+    storage_subdir: agents/test-automation-engineer
+    include_paths:
+      - Shared/
+      - Playbooks/
+      - Projects/
+      - Logs/
+      - Notes/
+    query_hint: UI automation, API tests, flake reduction, helpers
+  qa-browser:
+    collection: agent_qa_browser_memory
+    storage_subdir: agents/qa-browser
+    include_paths:
+      - Shared/
+      - Logs/
+      - Playbooks/
+      - Projects/
+      - Notes/
+      - Important/
+    query_hint: browser repro, auth flows, UI regressions

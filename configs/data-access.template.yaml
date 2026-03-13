@@ -1,0 +1,59 @@
+environments:
+  local:
+    base_url: <LOCAL_BASE_URL>
+    allow_read: true
+    allow_write: true
+    contains_sensitive_data: true
+  qa:
+    base_url: <QA_BASE_URL>
+    allow_read: true
+    allow_write: true
+    contains_sensitive_data: false
+  staging:
+    base_url: <STAGING_BASE_URL>
+    allow_read: true
+    allow_write: false
+    contains_sensitive_data: false
+  production:
+    enabled: false
+    reason: disabled by default for routine agent workflows
+
+memory_boundaries:
+  never_archive_patterns:
+    - "*.env"
+    - "*.har"
+    - "*.png"
+    - "*.jpg"
+    - "*.sqlite3"
+  never_archive_categories:
+    - secrets
+    - credentials
+    - tokens
+    - cookies
+    - private_keys
+    - raw_customer_data
+  role_scopes:
+    archivist:
+      - Shared/
+      - Inbox/
+      - Conversations/
+      - Important/
+      - Projects/
+      - Notes/
+    researcher:
+      - Shared/
+      - Projects/
+      - Notes/
+      - Logs/
+      - Decisions/
+    architect:
+      - Shared/
+      - Decisions/
+      - Projects/
+      - Playbooks/
+
+approvals:
+  destructive_commands: explicit_user_approval
+  production_access: forbidden
+  out_of_workspace_writes: explicit_user_approval
+  sensitive_external_systems: explicit_user_approval
