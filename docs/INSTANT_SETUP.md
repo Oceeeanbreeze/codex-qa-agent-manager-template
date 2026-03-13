@@ -1,4 +1,4 @@
-# Instant Setup
+﻿# Instant Setup
 
 ## Goal
 Set up the full QA agent system quickly with safe defaults.
@@ -19,6 +19,7 @@ Read in this order:
 4. `docs/MEMORY_OPERATIONS_RUNBOOK.md`
 5. `docs/EVALUATION_AND_OBSERVABILITY.md`
 6. `docs/BACKUP_AND_RECOVERY.md`
+7. `docs/SETTINGS_PARITY_AUDIT.md`
 
 ## Step 3. Fill the config templates
 Prepare these files locally from the templates:
@@ -26,8 +27,7 @@ Prepare these files locally from the templates:
 - `configs/data-access.template.yaml`
 - `configs/evals.template.yaml`
 - `configs/recovery.template.yaml`
-
-Keep the real values out of git if they reveal local paths, secrets, or private environments.
+- `configs/role-profiles.template.yaml`
 
 ## Step 4. Configure the environment tiers
 - set `local` and `qa` first
@@ -40,12 +40,14 @@ Keep the real values out of git if they reveal local paths, secrets, or private 
 - choose the local embedding endpoint and model
 - keep markdown as source of truth
 - treat indexes as rebuildable caches
+- keep role include-paths scoped
 
 ## Step 6. Configure the role system
 - keep `router` as coordinator
 - enable only the needed specialist roles
 - keep role prompts small and explicit
 - keep memory scopes role-specific
+- keep role profiles aligned with `configs/role-profiles.template.yaml`
 
 ## Step 7. Configure the operator workflow
 Make these standard operator actions:

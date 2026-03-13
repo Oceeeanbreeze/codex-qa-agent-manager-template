@@ -1,4 +1,4 @@
-vault_path: <YOUR_VAULT_PATH>
+﻿vault_path: <YOUR_VAULT_PATH>
 storage_dir: <YOUR_STORAGE_PATH>
 ollama:
   base_url: <YOUR_OLLAMA_URL>
@@ -29,97 +29,113 @@ agents:
     storage_subdir: agents/archivist
     include_paths:
       - Shared/
+      - Agents/Archivist/
       - Inbox/
       - Conversations/
       - Important/
       - Projects/
       - Notes/
-    query_hint: note hygiene, exact remembered statements, knowledge organization
+      - Playbooks/
+      - Decisions/
+      - Logs/
+    query_hint: vault structure, exact remembered statements, note hygiene, knowledge organization
   router:
     collection: agent_router_memory
     storage_subdir: agents/router
     include_paths:
       - Shared/
+      - Agents/Router/
       - Decisions/
       - Projects/
       - Notes/
       - Important/
-    query_hint: routing priorities, task classification, acceptance criteria
+    query_hint: routing priorities, task classification, risk, acceptance criteria
   researcher:
     collection: agent_researcher_memory
     storage_subdir: agents/researcher
     include_paths:
       - Shared/
+      - Agents/Researcher/
       - Projects/
       - Notes/
       - Logs/
       - Decisions/
-    query_hint: investigations, traces, findings, prior incidents
+      - Important/
+    query_hint: investigations, code traces, findings, prior incidents
   architect:
     collection: agent_architect_memory
     storage_subdir: agents/architect
     include_paths:
       - Shared/
+      - Agents/Architect/
       - Decisions/
       - Projects/
       - Playbooks/
-    query_hint: architecture decisions, invariants, tradeoffs
+      - Important/
+    query_hint: architecture decisions, invariants, contracts, tradeoffs
   implementer:
     collection: agent_implementer_memory
     storage_subdir: agents/implementer
     include_paths:
       - Shared/
+      - Agents/Implementer/
       - Projects/
       - Playbooks/
       - Notes/
-    query_hint: implementation patterns, selectors, seams
+    query_hint: implementation patterns, selectors, seams, code conventions
   reviewer:
     collection: agent_reviewer_memory
     storage_subdir: agents/reviewer
     include_paths:
       - Shared/
+      - Agents/Reviewer/
       - Logs/
       - Decisions/
       - Playbooks/
       - Important/
-    query_hint: regressions, edge cases, failure patterns
+    query_hint: regressions, edge cases, postmortems, failure patterns
   tester:
     collection: agent_tester_memory
     storage_subdir: agents/tester
     include_paths:
       - Shared/
+      - Agents/Tester/
       - Logs/
       - Playbooks/
       - Projects/
       - Notes/
-    query_hint: checklists, repro steps, verification notes
+    query_hint: checklists, repro steps, observed failures, verification notes
   test-strategist:
     collection: agent_test_strategist_memory
     storage_subdir: agents/test-strategist
     include_paths:
       - Shared/
+      - Agents/Test-Strategist/
       - Decisions/
       - Playbooks/
       - Projects/
-    query_hint: coverage strategy, ROI, suite design
+      - Important/
+    query_hint: test pyramid, coverage strategy, ROI, suite design
   test-automation-engineer:
     collection: agent_test_automation_engineer_memory
     storage_subdir: agents/test-automation-engineer
     include_paths:
       - Shared/
+      - Agents/Test-Automation-Engineer/
       - Playbooks/
       - Projects/
       - Logs/
       - Notes/
-    query_hint: UI automation, API tests, flake reduction, helpers
+    query_hint: Playwright patterns, API tests, flake reduction, helpers
   qa-browser:
     collection: agent_qa_browser_memory
     storage_subdir: agents/qa-browser
     include_paths:
       - Shared/
+      - Agents/QA-Browser/
       - Logs/
       - Playbooks/
       - Projects/
       - Notes/
       - Important/
-    query_hint: browser repro, auth flows, UI regressions
+    query_hint: browser repro, auth flows, UI regressions, exploratory QA

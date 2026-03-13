@@ -1,0 +1,43 @@
+﻿roles:
+  archivist:
+    profile: premium-reasoning
+    thinking_depth: high
+  router:
+    profile: premium-reasoning
+    thinking_depth: high
+  architect:
+    profile: premium-reasoning
+    thinking_depth: high
+  researcher:
+    profile: fast-context
+    thinking_depth: low-medium
+  implementer:
+    profile: balanced
+    thinking_depth: medium
+  reviewer:
+    profile: premium-reasoning
+    thinking_depth: high
+  tester:
+    profile: balanced
+    thinking_depth: medium
+  test-strategist:
+    profile: premium-reasoning
+    thinking_depth: high
+  test-automation-engineer:
+    profile: balanced
+    thinking_depth: medium-high
+  qa-browser:
+    profile: balanced
+    thinking_depth: medium
+
+usage_rules:
+  use_deeper_reasoning_for:
+    - ambiguous tasks
+    - cross-file changes
+    - design decisions
+    - unclear blast radius
+    - test strategy decisions
+  use_lighter_execution_for:
+    - narrow edits
+    - straightforward tracing
+    - focused automation updates

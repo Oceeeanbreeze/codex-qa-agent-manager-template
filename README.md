@@ -1,4 +1,7 @@
-# Public QA Agent Manager Template
+﻿# Public QA Agent Manager Template
+
+English: `README.md`
+Русская версия: `README.ru.md`
 
 This package is safe to publish as a public GitHub repository.
 It contains generic instructions and configuration templates for a quality-first agent system used to automate QA workflows.
@@ -15,18 +18,20 @@ It does not include:
 - a routed multi-agent QA workflow;
 - generic role definitions;
 - generic workflow and skill-routing files;
-- a template memory configuration;
+- a detailed memory configuration template;
+- role-tooling and role-profile templates;
 - data-boundary, eval, and recovery templates;
 - a bootstrap script for new devices;
 - a Codex bootstrap prompt for new sessions;
 - security rules to avoid leaking local data;
-- setup instructions for GitHub publication.
+- setup instructions for GitHub publication in English and Russian.
 
 ## Suggested repository structure
 
 ```text
 qa-agent-manager-template/
   README.md
+  README.ru.md
   .gitignore
   SECURITY.md
   AGENTS.md
@@ -38,6 +43,7 @@ qa-agent-manager-template/
     data-access.template.yaml
     evals.template.yaml
     recovery.template.yaml
+    role-profiles.template.yaml
   docs/
     AGENT_SYSTEM_OPERATIONS_DASHBOARD.md
     REFERENCE_ARCHITECTURE.md
@@ -50,8 +56,11 @@ qa-agent-manager-template/
     BACKUP_AND_RECOVERY.md
     DEPLOYMENT.md
     OPERATIONS.md
+    SETTINGS_PARITY_AUDIT.md
+    ru/
   memory/
     README.md
+    ROLE_TOOLING.md
     config.template.yaml
   tools/
     bootstrap-workspace.ps1
@@ -74,54 +83,29 @@ qa-agent-manager-template/
 4. Paste `docs/CODEX_BOOTSTRAP_PROMPT.md` into a new chat.
 5. Let Codex finish local review and tell you what still depends on local runtime or credentials.
 
-## Publish to GitHub
+## Recommended docs order
+- `docs/REFERENCE_ARCHITECTURE.md`
+- `docs/INSTANT_SETUP.md`
+- `docs/NEW_DEVICE_SETUP.md`
+- `docs/DATA_BOUNDARIES_AND_ACCESS.md`
+- `docs/MEMORY_OPERATIONS_RUNBOOK.md`
+- `docs/SETTINGS_PARITY_AUDIT.md`
 
-1. Create a new empty repository in your account.
-2. Initialize git locally in the folder.
-3. Commit only the template files.
-4. Push to GitHub.
-
-Example commands:
-
-```powershell
-git init
-git add .
-git commit -m "Add public QA agent manager template"
-git branch -M main
-git remote add origin https://github.com/<your-account>/<repo-name>.git
-git push -u origin main
-```
-
-## Before every push
-
-Run these checks:
-- no local absolute paths remain;
-- no product names remain if the repo must stay generic;
-- no `obsidian-vault/` content is tracked;
-- no `memory/data/` content is tracked;
-- no screenshots, traces, logs, or exports with sensitive context are tracked;
-- no secrets or `.env` files are tracked.
+## Reconstruction test goal
+This repository should let a new Codex workspace reconstruct the same agent-system shape, role model, memory model, and operator discipline as the original setup, while intentionally excluding private vault data, local secrets, and product-specific knowledge.
 
 ## Included files
-
-- `AGENTS.md`: generic orchestration rules
-- `codex/WORKFLOW.md`: route selection and execution discipline
+- `AGENTS.md`: orchestration rules with routing, memory, checkpoints, anti-loop rules, and escalation
+- `codex/WORKFLOW.md`: route selection, heuristics, execution discipline, and response standard
 - `codex/SKILL_ROUTING.md`: role-to-skill mapping template
-- `memory/config.template.yaml`: generic memory configuration template
+- `memory/config.template.yaml`: detailed memory configuration template
+- `memory/ROLE_TOOLING.md`: role-specific memory tooling and process guide
+- `configs/role-profiles.template.yaml`: logical role-profile mapping
 - `configs/*.template.yaml`: generic access, eval, and recovery templates
 - `tools/bootstrap-workspace.ps1`: safe scaffold for a new device
 - `docs/CODEX_BOOTSTRAP_PROMPT.md`: exact prompt for a new Codex session
-- `docs/REFERENCE_ARCHITECTURE.md`: target system design
-- `docs/INSTANT_SETUP.md`: step-by-step setup
-- `docs/NEW_DEVICE_SETUP.md`: new-device playbook
-- `docs/DATA_BOUNDARIES_AND_ACCESS.md`: memory and environment boundaries
-- `docs/EVALUATION_AND_OBSERVABILITY.md`: measurement model
-- `docs/BACKUP_AND_RECOVERY.md`: restore and recovery model
-- `docs/DEPLOYMENT.md`: setup instructions
-- `docs/OPERATIONS.md`: operational rules
-- `SECURITY.md`: public publishing safety checklist
+- `docs/SETTINGS_PARITY_AUDIT.md`: what was added to align the public template with the internal system
 
 ## Recommended next step
-
 Keep the public repository docs-first.
 If you later add scripts, publish only generic implementations and keep all environment-specific config local.
