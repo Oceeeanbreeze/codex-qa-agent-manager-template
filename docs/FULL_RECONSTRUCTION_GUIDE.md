@@ -28,6 +28,7 @@ In Codex-assisted mode, the docs remain the source of truth, but Codex is used t
 Use:
 - `docs/CODEX_ASSISTED_SETUP.md`
 - `docs/SETUP_CHAT_PROMPTS.md`
+- `docs/RUNTIME_INSTALLATION.md`
 
 ## What this repository should reproduce
 - role model and routing model;
@@ -110,6 +111,10 @@ Required minimum runtime:
 - the selected embedding model already pulled locally;
 - write access to the workspace, vault, and storage paths.
 
+Use:
+- `docs/RUNTIME_INSTALLATION.md`
+- `tools/install-runtime-prereqs.ps1`
+
 ### Step 6. Validate structure before behavior
 Run:
 ```powershell
@@ -126,7 +131,8 @@ The system is only operationally useful when the full memory loop works:
 - `index` can rebuild caches from markdown;
 - `finalize` can archive a safe test interaction.
 
-If public scripts for these commands are not shipped, define your local wrappers in `configs/runtime-manifest.local.yaml`.
+Safe generic scripts for these commands are shipped in `memory/scripts/`.
+If you need wrappers, define them in `configs/runtime-manifest.local.yaml`.
 
 ### Step 8. Open the workspace in Codex
 Use the cloned repository as the active Codex workspace.

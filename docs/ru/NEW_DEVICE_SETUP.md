@@ -34,7 +34,16 @@ cd <repo-name>
 powershell -ExecutionPolicy Bypass -File .\tools\bootstrap-workspace.ps1
 ```
 
-## Шаг 3. Заполнить local runtime manifest
+## Шаг 3. Установить runtime prerequisites
+Используй один из вариантов:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\tools\install-runtime-prereqs.ps1
+```
+
+или follow `docs/ru/RUNTIME_INSTALLATION.md`.
+
+## Шаг 4. Заполнить local runtime manifest
 Открой `configs/runtime-manifest.local.yaml` и убедись, что в нем отражены:
 - реальный Python launcher;
 - реальный embedding endpoint и model;
@@ -43,17 +52,17 @@ powershell -ExecutionPolicy Bypass -File .\tools\bootstrap-workspace.ps1
 
 Для полной настройки используй `docs/ru/RUNTIME_PARAMETER_MATRIX.md`.
 
-## Шаг 4. Открыть workspace в Codex
+## Шаг 5. Открыть workspace в Codex
 Открой клонированную папку как активный workspace.
 
-## Шаг 5. Вставить bootstrap prompt
+## Шаг 6. Вставить bootstrap prompt
 Используй prompt из `docs/CODEX_BOOTSTRAP_PROMPT.md`.
 
 Если хочешь, чтобы Codex вел оставшуюся настройку по фазам, продолжай через:
 - `docs/ru/CODEX_ASSISTED_SETUP.md`
 - `docs/ru/SETUP_CHAT_PROMPTS.md`
 
-## Шаг 6. Проверить local config
+## Шаг 7. Проверить local config
 Проверь:
 - `memory/config.yaml`
 - `configs/runtime-manifest.local.yaml`
@@ -63,7 +72,7 @@ powershell -ExecutionPolicy Bypass -File .\tools\bootstrap-workspace.ps1
 - `configs/recovery.template.yaml`
 - `configs/role-profiles.template.yaml`
 
-## Шаг 7. Прогнать doctor и health
+## Шаг 8. Прогнать doctor и health
 Используй `docs/ru/HEALTH_AND_DOCTOR.md` как runtime gate.
 
 Минимально должно быть проверено:
@@ -83,13 +92,13 @@ powershell -ExecutionPolicy Bypass -File .\tools\doctor-workspace.ps1
 powershell -ExecutionPolicy Bypass -File .\tools\health-memory.ps1
 ```
 
-## Шаг 8. Проверить safe boundaries
+## Шаг 9. Проверить safe boundaries
 - production остается disabled;
 - локальная память не попадает в git;
 - generated indexes не попадают в git;
 - secrets не записываются в durable memory.
 
-## Шаг 9. Подтвердить battle-ready статус
+## Шаг 10. Подтвердить battle-ready статус
 Используй `docs/ru/BATTLE_READY_CHECKLIST.md`.
 
 Система считается battle-ready только если:

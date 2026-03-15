@@ -9,16 +9,17 @@
 1. AGENTS.md
 2. docs/FULL_RECONSTRUCTION_GUIDE.md
 3. docs/RUNTIME_PARAMETER_MATRIX.md
-4. docs/CODEX_ASSISTED_SETUP.md
-5. docs/REFERENCE_ARCHITECTURE.md
-6. docs/AGENT_SYSTEM_OPERATIONS_DASHBOARD.md
-7. docs/NEW_DEVICE_SETUP.md
-8. docs/DATA_BOUNDARIES_AND_ACCESS.md
-9. docs/MEMORY_OPERATIONS_RUNBOOK.md
-10. docs/EVALUATION_AND_OBSERVABILITY.md
-11. docs/BACKUP_AND_RECOVERY.md
-12. memory/ROLE_TOOLING.md
-13. configs/runtime-manifest.local.yaml если файл существует
+4. docs/RUNTIME_INSTALLATION.md
+5. docs/CODEX_ASSISTED_SETUP.md
+6. docs/REFERENCE_ARCHITECTURE.md
+7. docs/AGENT_SYSTEM_OPERATIONS_DASHBOARD.md
+8. docs/NEW_DEVICE_SETUP.md
+9. docs/DATA_BOUNDARIES_AND_ACCESS.md
+10. docs/MEMORY_OPERATIONS_RUNBOOK.md
+11. docs/EVALUATION_AND_OBSERVABILITY.md
+12. docs/BACKUP_AND_RECOVERY.md
+13. memory/ROLE_TOOLING.md
+14. configs/runtime-manifest.local.yaml если файл существует
 
 Затем сделай следующее:
 - проверь, существует ли memory/config.yaml

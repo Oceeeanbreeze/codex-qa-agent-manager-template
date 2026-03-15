@@ -35,6 +35,7 @@ It does not include:
 qa-agent-manager-template/
   README.md
   README.ru.md
+  requirements.txt
   .gitignore
   SECURITY.md
   AGENTS.md
@@ -52,6 +53,7 @@ qa-agent-manager-template/
     AGENT_SYSTEM_OPERATIONS_DASHBOARD.md
     REFERENCE_ARCHITECTURE.md
     FULL_RECONSTRUCTION_GUIDE.md
+    RUNTIME_INSTALLATION.md
     CODEX_ASSISTED_SETUP.md
     SETUP_CHAT_PROMPTS.md
     INSTANT_SETUP.md
@@ -75,10 +77,12 @@ qa-agent-manager-template/
     README.md
     ROLE_TOOLING.md
     config.template.yaml
+    scripts/
   tools/
     bootstrap-workspace.ps1
     doctor-workspace.ps1
     health-memory.ps1
+    install-runtime-prereqs.ps1
 ```
 
 ## Quick start
@@ -86,28 +90,30 @@ qa-agent-manager-template/
 1. Copy these files into a new repository.
 2. Read `docs/FULL_RECONSTRUCTION_GUIDE.md` first.
 3. Run `tools/bootstrap-workspace.ps1` on the target device.
-4. Fill `configs/runtime-manifest.local.yaml` and verify it against `docs/RUNTIME_PARAMETER_MATRIX.md`.
-5. Replace placeholders in `memory/config.template.yaml` and the other templates you actually use.
-6. If you want guided phase-by-phase help, use `docs/CODEX_ASSISTED_SETUP.md` and `docs/SETUP_CHAT_PROMPTS.md`.
-7. Review `docs/HEALTH_AND_DOCTOR.md`, `docs/BATTLE_READY_CHECKLIST.md`, `docs/GIT_RELEASE_AND_PARITY_CHECKLIST.md`, `SECURITY.md`, and `.gitignore`.
-8. Add your local scripts or implementation later, but never commit live vault data or generated indexes.
+4. Install runtime prerequisites from `docs/RUNTIME_INSTALLATION.md` or `tools/install-runtime-prereqs.ps1`.
+5. Fill `configs/runtime-manifest.local.yaml` and verify it against `docs/RUNTIME_PARAMETER_MATRIX.md`.
+6. Replace placeholders in `memory/config.template.yaml` and the other templates you actually use.
+7. If you want guided phase-by-phase help, use `docs/CODEX_ASSISTED_SETUP.md` and `docs/SETUP_CHAT_PROMPTS.md`.
+8. Review `docs/HEALTH_AND_DOCTOR.md`, `docs/BATTLE_READY_CHECKLIST.md`, `docs/GIT_RELEASE_AND_PARITY_CHECKLIST.md`, `SECURITY.md`, and `.gitignore`.
 9. Treat the template as battle-ready only after runtime, memory, operator, and parity checks are green.
 
 ## New device or new Codex account flow
 
 1. Clone the repo.
 2. Run `tools/bootstrap-workspace.ps1`.
-3. Fill `configs/runtime-manifest.local.yaml`.
-4. Open the repo as a workspace in Codex.
-5. Paste `docs/CODEX_BOOTSTRAP_PROMPT.md` into a new chat.
-6. If you want guided setup, continue with `docs/SETUP_CHAT_PROMPTS.md` one phase at a time.
-7. Run the doctor and health checks described in `docs/HEALTH_AND_DOCTOR.md`.
-8. Validate readiness using `docs/BATTLE_READY_CHECKLIST.md`.
-9. Let Codex finish local review and tell you what still depends on local runtime or credentials.
+3. Install Python, Ollama, dependencies, and the embedding model using `docs/RUNTIME_INSTALLATION.md`.
+4. Fill `configs/runtime-manifest.local.yaml`.
+5. Open the repo as a workspace in Codex.
+6. Paste `docs/CODEX_BOOTSTRAP_PROMPT.md` into a new chat.
+7. If you want guided setup, continue with `docs/SETUP_CHAT_PROMPTS.md` one phase at a time.
+8. Run the doctor and health checks described in `docs/HEALTH_AND_DOCTOR.md`.
+9. Validate readiness using `docs/BATTLE_READY_CHECKLIST.md`.
+10. Let Codex finish local review and tell you what still depends on local runtime or credentials.
 
 ## Recommended docs order
 - `docs/REFERENCE_ARCHITECTURE.md`
 - `docs/FULL_RECONSTRUCTION_GUIDE.md`
+- `docs/RUNTIME_INSTALLATION.md`
 - `docs/CODEX_ASSISTED_SETUP.md`
 - `docs/INSTANT_SETUP.md`
 - `docs/NEW_DEVICE_SETUP.md`
@@ -126,6 +132,7 @@ This repository should let a new Codex workspace reconstruct the same agent-syst
 - `codex/WORKFLOW.md`: route selection, heuristics, execution discipline, and response standard
 - `codex/SKILL_ROUTING.md`: role-to-skill mapping template
 - `memory/config.template.yaml`: detailed memory configuration template
+- `memory/scripts/`: safe generic entrypoints for preflight, search, index, finalize, archive, and watch
 - `memory/ROLE_TOOLING.md`: role-specific memory tooling and process guide
 - `configs/role-profiles.template.yaml`: logical role-profile mapping
 - `configs/*.template.yaml`: generic access, eval, and recovery templates
@@ -141,10 +148,5 @@ Keep the public repository docs-first.
 If you later add scripts, publish only generic implementations and keep all environment-specific config local.
 
 ## What still must be added locally for a truly battle-ready installation
-- a working Python runtime
-- a reachable local embedding provider
-- the actual embedding model
-- local writable storage paths
+- local secrets and access boundaries configured outside git
 - a completed local parity manifest
-- real operator launchers for doctor, health, preflight, search, index, finalize, and watch
-- local credentials and access boundaries configured outside git

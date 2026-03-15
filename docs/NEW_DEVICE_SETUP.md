@@ -34,7 +34,16 @@ cd <repo-name>
 powershell -ExecutionPolicy Bypass -File .\tools\bootstrap-workspace.ps1
 ```
 
-## Step 3. Fill the local runtime manifest
+## Step 3. Install runtime prerequisites
+Use one of these:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\tools\install-runtime-prereqs.ps1
+```
+
+or follow `docs/RUNTIME_INSTALLATION.md`.
+
+## Step 4. Fill the local runtime manifest
 Open `configs/runtime-manifest.local.yaml` and make sure it matches:
 - your actual Python launcher;
 - your actual embedding endpoint and model;
@@ -43,17 +52,17 @@ Open `configs/runtime-manifest.local.yaml` and make sure it matches:
 
 Use `docs/RUNTIME_PARAMETER_MATRIX.md` to fill it completely.
 
-## Step 4. Open the workspace in Codex
+## Step 5. Open the workspace in Codex
 Open the cloned folder as the active workspace.
 
-## Step 5. Paste the bootstrap prompt into Codex
+## Step 6. Paste the bootstrap prompt into Codex
 Use the prompt from `docs/CODEX_BOOTSTRAP_PROMPT.md`.
 
 If you want Codex to guide the remaining installation in phases, continue with:
 - `docs/CODEX_ASSISTED_SETUP.md`
 - `docs/SETUP_CHAT_PROMPTS.md`
 
-## Step 6. Verify the local config
+## Step 7. Verify the local config
 Check:
 - `memory/config.yaml`
 - `configs/runtime-manifest.local.yaml`
@@ -63,7 +72,7 @@ Check:
 - `configs/recovery.template.yaml`
 - `configs/role-profiles.template.yaml`
 
-## Step 7. Run doctor and health
+## Step 8. Run doctor and health
 Use `docs/HEALTH_AND_DOCTOR.md` as the runtime gate.
 
 At minimum verify:
@@ -83,13 +92,13 @@ powershell -ExecutionPolicy Bypass -File .\tools\doctor-workspace.ps1
 powershell -ExecutionPolicy Bypass -File .\tools\health-memory.ps1
 ```
 
-## Step 8. Keep the safe boundaries
+## Step 9. Keep the safe boundaries
 - keep production disabled
 - keep local/private memory out of git
 - keep generated indexes out of git
 - do not store secrets in durable memory
 
-## Step 9. Confirm battle-ready status
+## Step 10. Confirm battle-ready status
 Use `docs/BATTLE_READY_CHECKLIST.md`.
 
 The system is battle-ready only when:

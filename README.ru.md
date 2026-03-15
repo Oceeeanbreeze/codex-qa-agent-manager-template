@@ -35,6 +35,7 @@ English version: `README.md`
 qa-agent-manager-template/
   README.md
   README.ru.md
+  requirements.txt
   .gitignore
   SECURITY.md
   AGENTS.md
@@ -52,6 +53,7 @@ qa-agent-manager-template/
     AGENT_SYSTEM_OPERATIONS_DASHBOARD.md
     REFERENCE_ARCHITECTURE.md
     FULL_RECONSTRUCTION_GUIDE.md
+    RUNTIME_INSTALLATION.md
     CODEX_ASSISTED_SETUP.md
     SETUP_CHAT_PROMPTS.md
     INSTANT_SETUP.md
@@ -75,10 +77,12 @@ qa-agent-manager-template/
     README.md
     ROLE_TOOLING.md
     config.template.yaml
+    scripts/
   tools/
     bootstrap-workspace.ps1
     doctor-workspace.ps1
     health-memory.ps1
+    install-runtime-prereqs.ps1
 ```
 
 ## Быстрый старт
@@ -86,24 +90,26 @@ qa-agent-manager-template/
 1. Скопируй файлы в новый репозиторий.
 2. Сначала прочитай `docs/FULL_RECONSTRUCTION_GUIDE.md`.
 3. Запусти `tools/bootstrap-workspace.ps1` на целевом устройстве.
-4. Заполни `configs/runtime-manifest.local.yaml` и сверь его с `docs/RUNTIME_PARAMETER_MATRIX.md`.
-5. Заполни плейсхолдеры в `memory/config.template.yaml` и остальных шаблонах, которые реально используешь.
-6. Если нужен guided setup по фазам, используй `docs/CODEX_ASSISTED_SETUP.md` и `docs/SETUP_CHAT_PROMPTS.md`.
-7. Прочитай `docs/HEALTH_AND_DOCTOR.md`, `docs/BATTLE_READY_CHECKLIST.md`, `docs/GIT_RELEASE_AND_PARITY_CHECKLIST.md`, `SECURITY.md` и `.gitignore`.
-8. Не коммить содержимое реального vault, generated indexes и приватные runtime-данные.
-9. Считай систему боеготовой только после прохождения runtime, memory, operator и parity checks.
+4. Установи runtime prerequisites через `docs/RUNTIME_INSTALLATION.md` или `tools/install-runtime-prereqs.ps1`.
+5. Заполни `configs/runtime-manifest.local.yaml` и сверь его с `docs/RUNTIME_PARAMETER_MATRIX.md`.
+6. Заполни плейсхолдеры в `memory/config.template.yaml` и остальных шаблонах, которые реально используешь.
+7. Если нужен guided setup по фазам, используй `docs/CODEX_ASSISTED_SETUP.md` и `docs/SETUP_CHAT_PROMPTS.md`.
+8. Прочитай `docs/HEALTH_AND_DOCTOR.md`, `docs/BATTLE_READY_CHECKLIST.md`, `docs/GIT_RELEASE_AND_PARITY_CHECKLIST.md`, `SECURITY.md` и `.gitignore`.
+9. Не коммить содержимое реального vault, generated indexes и приватные runtime-данные.
+10. Считай систему боеготовой только после прохождения runtime, memory, operator и parity checks.
 
 ## Сценарий для нового устройства или нового аккаунта Codex
 
 1. Клонируй репозиторий.
 2. Запусти `tools/bootstrap-workspace.ps1`.
-3. Заполни `configs/runtime-manifest.local.yaml`.
-4. Открой репозиторий как workspace в Codex.
-5. Вставь `docs/CODEX_BOOTSTRAP_PROMPT.md` в новый чат.
-6. Если нужен guided setup, проходи `docs/SETUP_CHAT_PROMPTS.md` по одной фазе за раз.
-7. Прогони doctor и health по `docs/HEALTH_AND_DOCTOR.md`.
-8. Проверь готовность по `docs/BATTLE_READY_CHECKLIST.md`.
-9. Дай Codex проверить локальную среду и сказать, чего не хватает из runtime или credentials.
+3. Установи Python, Ollama, dependencies и embedding model по `docs/RUNTIME_INSTALLATION.md`.
+4. Заполни `configs/runtime-manifest.local.yaml`.
+5. Открой репозиторий как workspace в Codex.
+6. Вставь `docs/CODEX_BOOTSTRAP_PROMPT.md` в новый чат.
+7. Если нужен guided setup, проходи `docs/SETUP_CHAT_PROMPTS.md` по одной фазе за раз.
+8. Прогони doctor и health по `docs/HEALTH_AND_DOCTOR.md`.
+9. Проверь готовность по `docs/BATTLE_READY_CHECKLIST.md`.
+10. Дай Codex проверить локальную среду и сказать, чего не хватает из runtime или credentials.
 
 ## В каком порядке читать документацию
 - `docs/REFERENCE_ARCHITECTURE.md`

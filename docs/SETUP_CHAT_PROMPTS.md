@@ -61,6 +61,10 @@ Use the repository docs and current workspace state to verify whether the machin
 - embedding model presence;
 - writable vault and storage paths.
 
+Use:
+- docs/RUNTIME_INSTALLATION.md
+- tools/install-runtime-prereqs.ps1
+
 If checks are available, tell me which command to run first.
 If something is missing, do not guess hidden fixes.
 Tell me exactly:

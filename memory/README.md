@@ -8,6 +8,8 @@ Start from `docs/AGENT_SYSTEM_OPERATIONS_DASHBOARD.md`, then move into `docs/MEM
 - local embeddings provider
 - vector store
 - lexical search store
+- Python dependencies from `requirements.txt`
+- memory entrypoints from `memory/scripts/`
 
 ## Operational rules
 - search memory before substantial work

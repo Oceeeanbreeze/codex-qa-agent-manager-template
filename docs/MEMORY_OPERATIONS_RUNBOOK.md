@@ -46,9 +46,11 @@ Memory is considered ready for daily use only if:
 
 ## Preflight
 Use before substantial work to retrieve role-specific memory context.
+Generic script included: `memory/scripts/preflight_memory.py`
 
 ## Search
 Use during work for role-specific targeted retrieval.
+Generic script included: `memory/scripts/search_memory.py`
 
 ## Index
 Prefer changed-path incremental indexing instead of broad full rebuilds.
@@ -56,10 +58,12 @@ Support:
 - full-scan incremental apply
 - single-agent index
 - changed-path updates
+Generic script included: `memory/scripts/index_memory.py`
 
 ## Finalize
 Run at milestone boundaries, not after every reply.
 Archive durable knowledge and reindex only the needed roles.
+Generic script included: `memory/scripts/finalize_task.py`
 
 ## Watch
 Use only when batch note editing makes background indexing worthwhile.

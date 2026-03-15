@@ -28,6 +28,7 @@
 Используй:
 - `docs/ru/CODEX_ASSISTED_SETUP.md`
 - `docs/ru/SETUP_CHAT_PROMPTS.md`
+- `docs/ru/RUNTIME_INSTALLATION.md`
 
 ## Что должен воспроизводить репозиторий
 - role model и routing model;
@@ -110,6 +111,10 @@ Bootstrap должен создать:
 - заранее загруженная embedding model;
 - права на запись в workspace, vault и storage paths.
 
+Используй:
+- `docs/ru/RUNTIME_INSTALLATION.md`
+- `tools/install-runtime-prereqs.ps1`
+
 ### Шаг 6. Сначала проверить структуру, потом поведение
 Запусти:
 ```powershell
@@ -126,7 +131,8 @@ powershell -ExecutionPolicy Bypass -File .\tools\health-memory.ps1
 - `index` умеет пересобирать caches из markdown;
 - `finalize` умеет архивировать безопасную тестовую interaction.
 
-Если публичные скрипты для этих команд не публикуются, их локальные wrappers нужно зафиксировать в `configs/runtime-manifest.local.yaml`.
+Safe generic scripts для этих команд уже включены в `memory/scripts/`.
+Если нужны wrappers, их нужно зафиксировать в `configs/runtime-manifest.local.yaml`.
 
 ### Шаг 8. Открыть workspace в Codex
 Используй клонированный репозиторий как активный Codex workspace.

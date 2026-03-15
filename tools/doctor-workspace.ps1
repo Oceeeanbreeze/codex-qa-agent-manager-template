@@ -25,11 +25,32 @@ function Read-ConfigValue {
     return ''
 }
 
+function Read-RuntimeManifestLauncher {
+    param([string]$ManifestPath)
+    if (-not (Test-Path $ManifestPath)) {
+        return $null
+    }
+    $content = Get-Content $ManifestPath -Raw
+    $match = [regex]::Match($content, "(?m)^\s*python_launcher:\s*(.+)$")
+    if ($match.Success) {
+        return $match.Groups[1].Value.Trim()
+    }
+    return $null
+}
+
 function Test-PythonExecution {
+    param([string]$PreferredLauncher)
     $candidates = @(
         @{ Name = 'py'; Args = @('-3', '--version') },
         @{ Name = 'python'; Args = @('--version') }
     )
+
+    if ($PreferredLauncher) {
+        $tokens = $PreferredLauncher -split '\s+'
+        if ($tokens.Count -gt 0) {
+            $candidates = ,@{ Name = $tokens[0]; Args = @($tokens[1..($tokens.Count - 1)]) + @('--version') } + $candidates
+        }
+    }
 
     foreach ($candidate in $candidates) {
         $cmd = Get-Command $candidate.Name -ErrorAction SilentlyContinue
@@ -99,7 +120,8 @@ foreach ($dir in $requiredDirs) {
     })
 }
 
-$pythonExecution = Test-PythonExecution
+$preferredLauncher = Read-RuntimeManifestLauncher -ManifestPath $runtimeManifestPath
+$pythonExecution = Test-PythonExecution -PreferredLauncher $preferredLauncher
 $results.Add([PSCustomObject]@{
     Check = 'python-runtime'
     Status = $pythonExecution.Status

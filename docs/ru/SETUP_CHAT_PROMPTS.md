@@ -61,6 +61,10 @@
 - наличию embedding model;
 - записи в vault и storage paths.
 
+Используй:
+- docs/ru/RUNTIME_INSTALLATION.md
+- tools/install-runtime-prereqs.ps1
+
 Если проверки уже доступны, скажи, какую команду мне запускать первой.
 Если чего-то не хватает, не придумывай скрытых фиксов.
 Скажи точно:

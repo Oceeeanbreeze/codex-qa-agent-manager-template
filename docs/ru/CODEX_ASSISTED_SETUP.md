@@ -69,6 +69,10 @@ Codex не должен пытаться "сделать все сразу".
 - наличие embedding model;
 - writable vault и storage paths.
 
+Основные ссылки:
+- `docs/ru/RUNTIME_INSTALLATION.md`
+- `tools/install-runtime-prereqs.ps1`
+
 Готово, когда:
 - `doctor` зеленый или оставляет только понятные warnings.
 

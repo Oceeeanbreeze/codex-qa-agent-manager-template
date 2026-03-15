@@ -69,6 +69,10 @@ Typical checks:
 - embedding model presence;
 - writable vault and storage paths.
 
+Primary references:
+- `docs/RUNTIME_INSTALLATION.md`
+- `tools/install-runtime-prereqs.ps1`
+
 Done when:
 - `doctor` is green or only leaves understood warnings.
 

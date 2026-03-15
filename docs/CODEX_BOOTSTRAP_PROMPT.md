@@ -11,18 +11,19 @@ Read in this order:
 3. codex/SKILL_ROUTING.md
 4. docs/FULL_RECONSTRUCTION_GUIDE.md
 5. docs/RUNTIME_PARAMETER_MATRIX.md
-6. docs/CODEX_ASSISTED_SETUP.md
-7. docs/REFERENCE_ARCHITECTURE.md
-8. docs/AGENT_SYSTEM_OPERATIONS_DASHBOARD.md
-9. docs/NEW_DEVICE_SETUP.md
-10. docs/DATA_BOUNDARIES_AND_ACCESS.md
-11. docs/MEMORY_OPERATIONS_RUNBOOK.md
-12. docs/EVALUATION_AND_OBSERVABILITY.md
-13. docs/BACKUP_AND_RECOVERY.md
-14. docs/SETTINGS_PARITY_AUDIT.md
-15. memory/ROLE_TOOLING.md
-16. configs/role-profiles.template.yaml
-17. configs/runtime-manifest.local.yaml if it exists
+6. docs/RUNTIME_INSTALLATION.md
+7. docs/CODEX_ASSISTED_SETUP.md
+8. docs/REFERENCE_ARCHITECTURE.md
+9. docs/AGENT_SYSTEM_OPERATIONS_DASHBOARD.md
+10. docs/NEW_DEVICE_SETUP.md
+11. docs/DATA_BOUNDARIES_AND_ACCESS.md
+12. docs/MEMORY_OPERATIONS_RUNBOOK.md
+13. docs/EVALUATION_AND_OBSERVABILITY.md
+14. docs/BACKUP_AND_RECOVERY.md
+15. docs/SETTINGS_PARITY_AUDIT.md
+16. memory/ROLE_TOOLING.md
+17. configs/role-profiles.template.yaml
+18. configs/runtime-manifest.local.yaml if it exists
 
 Then do the following:
 - verify that memory/config.yaml exists

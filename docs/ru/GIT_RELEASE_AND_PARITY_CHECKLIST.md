@@ -7,12 +7,14 @@
 - [ ] `README.md` объясняет публично-безопасное назначение репозитория.
 - [ ] `README.ru.md` описывает тот же путь для русскоязычного оператора.
 - [ ] `docs/FULL_RECONSTRUCTION_GUIDE.md` соответствует текущему сценарию развертывания.
+- [ ] `docs/RUNTIME_INSTALLATION.md` соответствует реальному пути runtime-настройки.
 - [ ] `docs/RUNTIME_PARAMETER_MATRIX.md` соответствует текущим обязательным локальным параметрам.
 - [ ] `docs/HEALTH_AND_DOCTOR.md` соответствует реальным runtime-gates.
 - [ ] `docs/BATTLE_READY_CHECKLIST.md` соответствует реальным критериям готовности.
 
 ## 2. Полнота конфигурации
 - [ ] `memory/config.template.yaml` актуален.
+- [ ] `requirements.txt` актуален.
 - [ ] `configs/runtime-manifest.template.yaml` актуален.
 - [ ] `configs/data-access.template.yaml` актуален.
 - [ ] `configs/evals.template.yaml` актуален.
@@ -31,6 +33,7 @@
 - [ ] `tools/bootstrap-workspace.ps1` успешно отработал на чистом clone.
 - [ ] `tools/doctor-workspace.ps1` проходит или оставляет только понятные warnings.
 - [ ] `tools/health-memory.ps1` проходит или оставляет только понятные warnings.
+- [ ] В `memory/scripts/` присутствуют задокументированные generic memory entrypoints.
 - [ ] В чистом clone создан `BOOTSTRAP_REPORT.md`.
 - [ ] В чистом clone создан `configs/runtime-manifest.local.yaml`.
 
