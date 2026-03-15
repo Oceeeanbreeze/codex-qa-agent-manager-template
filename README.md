@@ -22,9 +22,12 @@ It does not include:
 - role-tooling and role-profile templates;
 - data-boundary, eval, and recovery templates;
 - a bootstrap script for new devices;
+- a runtime manifest template for local parity;
 - a Codex bootstrap prompt for new sessions;
+- a Codex-assisted staged setup guide and prompt pack;
 - security rules to avoid leaking local data;
-- setup instructions for GitHub publication in English and Russian.
+- setup instructions for GitHub publication in English and Russian;
+- a full reconstruction guide and a Git release parity checklist.
 
 ## Suggested repository structure
 
@@ -44,11 +47,21 @@ qa-agent-manager-template/
     evals.template.yaml
     recovery.template.yaml
     role-profiles.template.yaml
+    runtime-manifest.template.yaml
   docs/
     AGENT_SYSTEM_OPERATIONS_DASHBOARD.md
     REFERENCE_ARCHITECTURE.md
+    FULL_RECONSTRUCTION_GUIDE.md
+    CODEX_ASSISTED_SETUP.md
+    SETUP_CHAT_PROMPTS.md
     INSTANT_SETUP.md
     NEW_DEVICE_SETUP.md
+    HEALTH_AND_DOCTOR.md
+    BATTLE_READY_CHECKLIST.md
+    BATTLE_READY_REPORT.md
+    RUNTIME_PARAMETER_MATRIX.md
+    GIT_RELEASE_AND_PARITY_CHECKLIST.md
+    GITHUB_REPO_SNIPPETS.md
     CODEX_BOOTSTRAP_PROMPT.md
     DATA_BOUNDARIES_AND_ACCESS.md
     MEMORY_OPERATIONS_RUNBOOK.md
@@ -64,29 +77,43 @@ qa-agent-manager-template/
     config.template.yaml
   tools/
     bootstrap-workspace.ps1
+    doctor-workspace.ps1
+    health-memory.ps1
 ```
 
 ## Quick start
 
 1. Copy these files into a new repository.
-2. Read `docs/REFERENCE_ARCHITECTURE.md`, `docs/INSTANT_SETUP.md`, and `docs/NEW_DEVICE_SETUP.md`.
+2. Read `docs/FULL_RECONSTRUCTION_GUIDE.md` first.
 3. Run `tools/bootstrap-workspace.ps1` on the target device.
-4. Replace placeholders in `memory/config.template.yaml` and `configs/*.template.yaml`.
-5. Review `SECURITY.md` and `.gitignore` before the first commit.
-6. Add your local scripts or implementation later, but never commit live vault data or generated indexes.
+4. Fill `configs/runtime-manifest.local.yaml` and verify it against `docs/RUNTIME_PARAMETER_MATRIX.md`.
+5. Replace placeholders in `memory/config.template.yaml` and the other templates you actually use.
+6. If you want guided phase-by-phase help, use `docs/CODEX_ASSISTED_SETUP.md` and `docs/SETUP_CHAT_PROMPTS.md`.
+7. Review `docs/HEALTH_AND_DOCTOR.md`, `docs/BATTLE_READY_CHECKLIST.md`, `docs/GIT_RELEASE_AND_PARITY_CHECKLIST.md`, `SECURITY.md`, and `.gitignore`.
+8. Add your local scripts or implementation later, but never commit live vault data or generated indexes.
+9. Treat the template as battle-ready only after runtime, memory, operator, and parity checks are green.
 
 ## New device or new Codex account flow
 
 1. Clone the repo.
 2. Run `tools/bootstrap-workspace.ps1`.
-3. Open the repo as a workspace in Codex.
-4. Paste `docs/CODEX_BOOTSTRAP_PROMPT.md` into a new chat.
-5. Let Codex finish local review and tell you what still depends on local runtime or credentials.
+3. Fill `configs/runtime-manifest.local.yaml`.
+4. Open the repo as a workspace in Codex.
+5. Paste `docs/CODEX_BOOTSTRAP_PROMPT.md` into a new chat.
+6. If you want guided setup, continue with `docs/SETUP_CHAT_PROMPTS.md` one phase at a time.
+7. Run the doctor and health checks described in `docs/HEALTH_AND_DOCTOR.md`.
+8. Validate readiness using `docs/BATTLE_READY_CHECKLIST.md`.
+9. Let Codex finish local review and tell you what still depends on local runtime or credentials.
 
 ## Recommended docs order
 - `docs/REFERENCE_ARCHITECTURE.md`
+- `docs/FULL_RECONSTRUCTION_GUIDE.md`
+- `docs/CODEX_ASSISTED_SETUP.md`
 - `docs/INSTANT_SETUP.md`
 - `docs/NEW_DEVICE_SETUP.md`
+- `docs/HEALTH_AND_DOCTOR.md`
+- `docs/BATTLE_READY_CHECKLIST.md`
+- `docs/RUNTIME_PARAMETER_MATRIX.md`
 - `docs/DATA_BOUNDARIES_AND_ACCESS.md`
 - `docs/MEMORY_OPERATIONS_RUNBOOK.md`
 - `docs/SETTINGS_PARITY_AUDIT.md`
@@ -103,9 +130,21 @@ This repository should let a new Codex workspace reconstruct the same agent-syst
 - `configs/role-profiles.template.yaml`: logical role-profile mapping
 - `configs/*.template.yaml`: generic access, eval, and recovery templates
 - `tools/bootstrap-workspace.ps1`: safe scaffold for a new device
+- `configs/runtime-manifest.template.yaml`: single local parity manifest template
 - `docs/CODEX_BOOTSTRAP_PROMPT.md`: exact prompt for a new Codex session
+- `docs/SETUP_CHAT_PROMPTS.md`: staged prompts for Codex-assisted setup
 - `docs/SETTINGS_PARITY_AUDIT.md`: what was added to align the public template with the internal system
+- `docs/GIT_RELEASE_AND_PARITY_CHECKLIST.md`: what to verify before each public update
 
 ## Recommended next step
 Keep the public repository docs-first.
 If you later add scripts, publish only generic implementations and keep all environment-specific config local.
+
+## What still must be added locally for a truly battle-ready installation
+- a working Python runtime
+- a reachable local embedding provider
+- the actual embedding model
+- local writable storage paths
+- a completed local parity manifest
+- real operator launchers for doctor, health, preflight, search, index, finalize, and watch
+- local credentials and access boundaries configured outside git

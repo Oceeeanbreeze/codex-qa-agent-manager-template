@@ -1,34 +1,53 @@
 # Deployment
 
 ## Goal
-Deploy a docs-first QA agent manager without leaking local project data.
+Deploy the public template so it reproduces the same system shape as the internal setup and gets as close as possible to battle-ready operation without leaking private data.
+
+For the full end-to-end route, start with `docs/FULL_RECONSTRUCTION_GUIDE.md`.
 
 ## Step 1. Create the repository
 - create a new empty GitHub repository
 - copy this template into it
 - review `.gitignore` and `SECURITY.md`
+- keep the repository docs-first and public-safe
 
-## Step 2. Keep one operator entrypoint
+## Step 2. Define runtime prerequisites
+Before first use, decide and document:
+- Python version and launcher strategy
+- local embedding provider endpoint
+- embedding model name
+- vault path
+- storage path
+- writable directories
+- whether the system will run only locally or also in a shared QA environment
+
+Record all of these in `configs/runtime-manifest.local.yaml`.
+
+## Step 3. Keep one operator entrypoint
 Add or keep these operator docs:
 - `docs/AGENT_SYSTEM_OPERATIONS_DASHBOARD.md`
 - `docs/MEMORY_OPERATIONS_RUNBOOK.md`
 - `docs/REFERENCE_ARCHITECTURE.md`
 - `docs/INSTANT_SETUP.md`
 - `docs/NEW_DEVICE_SETUP.md`
+- `docs/HEALTH_AND_DOCTOR.md`
+- `docs/BATTLE_READY_CHECKLIST.md`
 - `docs/CODEX_BOOTSTRAP_PROMPT.md`
 
 The dashboard should be the first place an operator opens when the blocker is still unclear.
 
-## Step 3. Prepare config templates locally
+## Step 4. Prepare config templates locally
 Fill these templates with your own safe local values:
 - `memory/config.template.yaml`
+- `configs/runtime-manifest.template.yaml`
 - `configs/data-access.template.yaml`
 - `configs/evals.template.yaml`
 - `configs/recovery.template.yaml`
+- `configs/role-profiles.template.yaml`
 
 Keep the real values out of git if they reveal local paths, secrets, or private environments.
 
-## Step 4. Add the bootstrap layer
+## Step 5. Add the bootstrap layer
 Include:
 - `tools/bootstrap-workspace.ps1`
 - `docs/NEW_DEVICE_SETUP.md`
@@ -36,37 +55,47 @@ Include:
 
 This gives a repeatable new-device and new-Codex-account flow.
 
-## Step 5. Add local scripts
-Add your own local scripts for:
+It should also create a local parity manifest so a new operator does not have to guess which runtime parameters matter.
+
+## Step 6. Add local scripts or launchers
+Add your own local scripts or wrappers for:
 - doctor workflow
-- memory-tool launcher
 - health check
+- memory-tool launcher
 - indexing memory
 - searching memory
 - archival
 - checkpointing
+- optional watcher lifecycle
 
 Publish only generic versions if needed.
+This template already includes safe generic starters:
+- `tools/doctor-workspace.ps1`
+- `tools/health-memory.ps1`
 
-## Step 6. Verify local readiness
+## Step 7. Verify runtime readiness
 Before active use, run a doctor or health workflow that verifies:
 - core workspace files exist
+- runtime manifest is present
 - config file loads
 - vault path exists
 - storage path is writable
 - SQLite works
 - Python runtime is executable
-- Ollama is reachable and the embedding model is present
-- full self-test result is available when needed
+- the embedding endpoint is reachable
+- the embedding model is present
+- finalize can archive a test note
+- preflight can read active role memory
 
-## Step 7. Enforce data and access boundaries
+## Step 8. Enforce data and access boundaries
 Use `docs/DATA_BOUNDARIES_AND_ACCESS.md` and `configs/data-access.template.yaml` to define:
 - environment tiers
 - never-archive classes
 - role memory scopes
 - approval gates
+- local versus shared storage rules
 
-## Step 8. Add workflow discipline
+## Step 9. Add workflow discipline
 At minimum, support:
 - route selection
 - memory preflight
@@ -74,22 +103,27 @@ At minimum, support:
 - review
 - validation
 - archival
+- recovery from runtime failure
 
-## Step 9. Add evaluation before scale
+## Step 10. Add evaluation before scale
 Use `docs/EVALUATION_AND_OBSERVABILITY.md` and `configs/evals.template.yaml` to define:
 - small golden datasets
 - quality thresholds
 - scale-up gates
 - where reports are stored
 
-## Step 10. Add recovery discipline
+## Step 11. Add recovery discipline
 Use `docs/BACKUP_AND_RECOVERY.md` and `configs/recovery.template.yaml` to define:
 - source-of-truth assets
 - backup frequency
 - restore order
 - rebuild-from-markdown policy
+- what to do when runtime dependencies are present but unhealthy
 
-## Step 11. Verify before push
+## Step 12. Validate battle readiness
+Do not call the system battle-ready until `docs/BATTLE_READY_CHECKLIST.md` is fully green.
+
+## Step 13. Verify before push
 Search the repository for:
 - old product names
 - local paths
@@ -97,3 +131,5 @@ Search the repository for:
 - hostnames
 - secrets
 - copied logs or screenshots
+
+Then run `docs/GIT_RELEASE_AND_PARITY_CHECKLIST.md` on a clean clone.

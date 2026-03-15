@@ -11,6 +11,16 @@
 8. Validate at the right layer.
 9. Archive reusable knowledge.
 
+## Battle-ready operator order
+When running the system on a fresh or unstable machine, use this order:
+1. `doctor`
+2. `health`
+3. `preflight`
+4. `search`
+5. `index`
+6. `finalize`
+7. `watch` only if needed
+
 ## Archival rules
 - archive at milestones, not after every turn
 - prefer task-scoped conversation captures over daily catch-all files
@@ -26,6 +36,7 @@
 - verify Python and other runtime dependencies by successful execution, not by path existence alone
 - add an explicit environment check before deeper memory tests
 - keep shell-based and Python-based runtime resolution consistent
+- do not call the system battle-ready until doctor and health both pass
 
 ## Checkpoint rule
 Create or update one compact checkpoint when:
@@ -41,3 +52,12 @@ Create or update one compact checkpoint when:
 ## QA-specific rule
 Do not default every check to browser automation.
 Prefer the lightest layer that proves the behavior with confidence.
+
+## Day-2 operations
+At minimum, the operator should know how to:
+- rerun bootstrap safely
+- update local config without publishing secrets
+- reindex memory after note changes
+- archive milestone notes
+- recover after Python or embedding runtime failure
+- rebuild indexes from markdown instead of copying stale storage state

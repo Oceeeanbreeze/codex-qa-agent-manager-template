@@ -1,0 +1,74 @@
+workspace:
+  root: <YOUR_WORKSPACE_ROOT>
+  os: windows
+  shell: powershell
+  codex_mode: desktop
+
+runtime:
+  python_launcher: py -3
+  python_version: <YOUR_PYTHON_VERSION>
+
+embeddings:
+  provider: ollama
+  base_url: <YOUR_OLLAMA_URL>
+  model: <YOUR_MODEL_NAME>
+
+memory:
+  vault_path: <YOUR_VAULT_PATH>
+  storage_dir: <YOUR_STORAGE_PATH>
+  markdown_is_source_of_truth: true
+  indexes_are_rebuildable: true
+
+commands:
+  doctor: powershell -ExecutionPolicy Bypass -File .\tools\doctor-workspace.ps1
+  health: powershell -ExecutionPolicy Bypass -File .\tools\health-memory.ps1
+  preflight: py -3 .\memory\scripts\preflight_memory.py --config .\memory\config.yaml --task "<TASK>" --roles archivist,router
+  search: py -3 .\memory\scripts\search_memory.py --config .\memory\config.yaml --agent archivist --query "<QUERY>"
+  index: py -3 .\memory\scripts\index_memory.py --config .\memory\config.yaml --agent archivist
+  finalize: py -3 .\memory\scripts\finalize_task.py --config .\memory\config.yaml --title "<TITLE>" --user-text "<USER_TEXT>" --assistant-text "<ASSISTANT_TEXT>" --roles archivist
+  watch: <OPTIONAL_WATCH_COMMAND>
+
+environments:
+  local:
+    enabled: true
+    allow_read: true
+    allow_write: true
+  qa:
+    enabled: true
+    allow_read: true
+    allow_write: true
+  staging:
+    enabled: true
+    allow_read: true
+    allow_write: false
+  production:
+    enabled: false
+    reason: disabled by default for routine agent workflows
+
+observability:
+  reports_dir: docs/
+  keep_runtime_gate_reports: true
+  keep_battle_ready_report: true
+
+recovery:
+  backup_location: <YOUR_BACKUP_LOCATION>
+  restore_strategy: restore markdown and configs first, then reindex caches
+
+local_only_items:
+  - secrets
+  - tokens
+  - cookies
+  - certificates
+  - private_vault_content
+  - generated_indexes
+  - internal_logs
+  - traces
+  - screenshots
+
+parity_targets:
+  role_model: required
+  routing_model: required
+  memory_shape: required
+  operator_commands: required
+  approval_posture: required
+  production_disabled_by_default: required

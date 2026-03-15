@@ -25,6 +25,13 @@ Use it to identify the current blocker, choose the right command, and jump to th
 - `finalize`
 - `watch`
 
+## First documents
+- `docs/FULL_RECONSTRUCTION_GUIDE.md`
+- `docs/RUNTIME_PARAMETER_MATRIX.md`
+- `docs/CODEX_ASSISTED_SETUP.md`
+- `docs/HEALTH_AND_DOCTOR.md`
+- `docs/BATTLE_READY_CHECKLIST.md`
+
 ## Operational rule
 Start from the dashboard, then jump to the right runbook.
 Do not begin by editing scripts when the blocker is still unclear.

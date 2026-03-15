@@ -5,25 +5,35 @@ Set up the full QA agent system quickly with safe defaults.
 
 ## Fastest path
 1. Run `tools/bootstrap-workspace.ps1`.
-2. Open `docs/NEW_DEVICE_SETUP.md`.
-3. Paste `docs/CODEX_BOOTSTRAP_PROMPT.md` into a new Codex chat.
+2. Fill `configs/runtime-manifest.local.yaml`.
+3. Open `docs/FULL_RECONSTRUCTION_GUIDE.md`.
+4. Open `docs/HEALTH_AND_DOCTOR.md`.
+5. Paste `docs/CODEX_BOOTSTRAP_PROMPT.md` into a new Codex chat.
+6. Validate readiness with `docs/BATTLE_READY_CHECKLIST.md`.
 
 ## Step 1. Copy the template
 Copy this repository into a new local workspace.
 
 ## Step 2. Open the main docs
 Read in this order:
-1. `docs/REFERENCE_ARCHITECTURE.md`
-2. `docs/AGENT_SYSTEM_OPERATIONS_DASHBOARD.md`
-3. `docs/DATA_BOUNDARIES_AND_ACCESS.md`
-4. `docs/MEMORY_OPERATIONS_RUNBOOK.md`
-5. `docs/EVALUATION_AND_OBSERVABILITY.md`
-6. `docs/BACKUP_AND_RECOVERY.md`
-7. `docs/SETTINGS_PARITY_AUDIT.md`
+1. `docs/FULL_RECONSTRUCTION_GUIDE.md`
+2. `docs/RUNTIME_PARAMETER_MATRIX.md`
+3. `docs/REFERENCE_ARCHITECTURE.md`
+4. `docs/AGENT_SYSTEM_OPERATIONS_DASHBOARD.md`
+5. `docs/DATA_BOUNDARIES_AND_ACCESS.md`
+6. `docs/MEMORY_OPERATIONS_RUNBOOK.md`
+7. `docs/EVALUATION_AND_OBSERVABILITY.md`
+8. `docs/BACKUP_AND_RECOVERY.md`
+9. `docs/SETTINGS_PARITY_AUDIT.md`
+
+If you want Codex to help complete setup phase by phase, also read:
+- `docs/CODEX_ASSISTED_SETUP.md`
+- `docs/SETUP_CHAT_PROMPTS.md`
 
 ## Step 3. Fill the config templates
 Prepare these files locally from the templates:
 - `memory/config.template.yaml`
+- `configs/runtime-manifest.template.yaml`
 - `configs/data-access.template.yaml`
 - `configs/evals.template.yaml`
 - `configs/recovery.template.yaml`
@@ -33,6 +43,7 @@ Prepare these files locally from the templates:
 - set `local` and `qa` first
 - keep `production` disabled
 - document approval gates for sensitive actions
+- align the same posture in `configs/runtime-manifest.local.yaml`
 
 ## Step 5. Configure durable memory
 - choose the vault path
@@ -59,6 +70,8 @@ Make these standard operator actions:
 - `finalize`
 - `watch`
 
+Record the actual working commands in `configs/runtime-manifest.local.yaml`.
+
 ## Step 8. Add evals before scale
 Create small golden sets for:
 - routing
@@ -70,3 +83,12 @@ Create small golden sets for:
 ## Step 9. Publish only the safe layer
 Commit only docs, prompts, generic config templates, and safe bootstrap scripts.
 Do not commit live vault content, generated indexes, logs, traces, screenshots, or secrets.
+
+## Step 10. Call it battle-ready only after runtime proof
+Do not call the reconstructed system battle-ready until:
+- doctor passes
+- health passes
+- memory preflight works
+- finalize works
+- the battle-ready checklist is green
+- the Git parity checklist stays green on a clean clone

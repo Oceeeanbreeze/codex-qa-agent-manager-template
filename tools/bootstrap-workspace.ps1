@@ -42,6 +42,8 @@ foreach ($dir in $dirs) { Ensure-Dir $dir }
 
 $templatePath = Join-Path $workspace 'memory\config.template.yaml'
 $configPath = Join-Path $workspace 'memory\config.yaml'
+$runtimeTemplatePath = Join-Path $workspace 'configs\runtime-manifest.template.yaml'
+$runtimeManifestPath = Join-Path $workspace 'configs\runtime-manifest.local.yaml'
 if (-not (Test-Path $templatePath)) {
     throw "Template not found: $templatePath"
 }
@@ -53,6 +55,20 @@ $template = $template.Replace('<YOUR_OLLAMA_URL>', $OllamaUrl)
 $template = $template.Replace('<YOUR_MODEL_NAME>', $ModelName)
 if (-not (Test-Path $configPath)) {
     Set-Content -Path $configPath -Value $template -Encoding UTF8
+}
+
+if (Test-Path $runtimeTemplatePath) {
+    $runtimeTemplate = Get-Content $runtimeTemplatePath -Raw
+    $runtimeTemplate = $runtimeTemplate.Replace('<YOUR_WORKSPACE_ROOT>', $workspace)
+    $runtimeTemplate = $runtimeTemplate.Replace('<YOUR_VAULT_PATH>', $VaultDir)
+    $runtimeTemplate = $runtimeTemplate.Replace('<YOUR_STORAGE_PATH>', $StorageDir)
+    $runtimeTemplate = $runtimeTemplate.Replace('<YOUR_OLLAMA_URL>', $OllamaUrl)
+    $runtimeTemplate = $runtimeTemplate.Replace('<YOUR_MODEL_NAME>', $ModelName)
+    $runtimeTemplate = $runtimeTemplate.Replace('<YOUR_PYTHON_VERSION>', '<SET_LOCAL_PYTHON_VERSION>')
+    $runtimeTemplate = $runtimeTemplate.Replace('<YOUR_BACKUP_LOCATION>', '<SET_LOCAL_BACKUP_LOCATION>')
+    if (-not (Test-Path $runtimeManifestPath)) {
+        Set-Content -Path $runtimeManifestPath -Value $runtimeTemplate -Encoding UTF8
+    }
 }
 
 $reportPath = Join-Path $workspace 'BOOTSTRAP_REPORT.md'
@@ -67,6 +83,7 @@ $lines = @(
     "- Vault: $VaultDir",
     "- Storage: $StorageDir",
     "- Memory config: $configPath",
+    "- Runtime manifest: $runtimeManifestPath",
     "- Ollama URL: $OllamaUrl",
     "- Model: $ModelName",
     '',
@@ -74,7 +91,13 @@ $lines = @(
     '',
     '- Open docs/AGENT_SYSTEM_OPERATIONS_DASHBOARD.md',
     '- Read docs/NEW_DEVICE_SETUP.md',
+    '- Read docs/FULL_RECONSTRUCTION_GUIDE.md',
+    '- Read docs/HEALTH_AND_DOCTOR.md',
+    '- Run tools/doctor-workspace.ps1',
+    '- Run tools/health-memory.ps1',
     '- Review docs/CODEX_BOOTSTRAP_PROMPT.md',
+    '- Validate docs/BATTLE_READY_CHECKLIST.md',
+    '- Complete configs/runtime-manifest.local.yaml',
     '- Verify memory/config.yaml before first run',
     '- Keep production access disabled by default'
 )

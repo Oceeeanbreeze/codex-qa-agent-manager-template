@@ -1,0 +1,48 @@
+﻿<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<title>Battle Ready Report</title>
+<style>
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f5f1ea;color:#20323f;margin:0}.page{width:1040px;margin:24px auto;background:#fff;padding:34px 42px}.hero{background:linear-gradient(135deg,#17394a,#2d6a4f);color:#fff;padding:24px 28px;border-radius:18px}h1{margin:0 0 8px;font-size:30px}h2{margin:24px 0 12px;color:#17394a}p,li{font-size:14px;line-height:1.55}ul{padding-left:22px}.ok{margin-top:14px;padding:12px 14px;background:#eef6ff;border-left:5px solid #4d7fa5}.warn{margin-top:14px;padding:12px 14px;background:#fff7e8;border-left:5px solid #d28d1b}
+@media print{body{background:#fff}.page{margin:0;width:auto;padding:20px 24px}}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="hero"><h1>Battle Ready Report</h1><p>Что уже воспроизводится публичным шаблоном и что остается intentionally local. Дата: 14.03.2026.</p></div>
+<h2>Что уже есть в шаблоне</h2>
+<ul>
+<li>agent orchestration</li>
+<li>routing rules</li>
+<li>skill routing</li>
+<li>memory boundary templates</li>
+<li>deployment and setup docs</li>
+<li>health and doctor guidance</li>
+<li>battle-ready checklist</li>
+<li>generic doctor and health scripts</li>
+</ul>
+<h2>Что действительно воспроизводится</h2>
+<ul>
+<li>role model</li>
+<li>route model</li>
+<li>skill-loading logic</li>
+<li>memory model shape</li>
+<li>operator startup order</li>
+<li>security and approval posture</li>
+<li>recovery and checkpoint intent</li>
+</ul>
+<h2>Что остается локальным</h2>
+<ul>
+<li>private durable memory</li>
+<li>generated indexes</li>
+<li>secrets and credentials</li>
+<li>machine-specific runtime state</li>
+<li>internal incidents, screenshots, logs, traces</li>
+<li>company-specific product knowledge</li>
+</ul>
+<div class="warn">Шаблон battle-ready как public bootstrap and operator kit, но не равен полной копии внутренней системы. Для ежедневной реальной эксплуатации оператор все еще должен локально настроить runtime, пройти doctor/health и подтвердить battle-ready checklist.</div>
+<div class="ok">Рекомендуемая формулировка для GitHub: это public-safe reconstruction layer, который воспроизводит боевую форму системы, но осознанно не переносит private memory и sensitive runtime state.</div>
+</div>
+</body>
+</html>

@@ -36,6 +36,14 @@ It should verify:
 - embedding service is reachable
 - required agent profiles exist
 
+## Battle-ready memory gate
+Memory is considered ready for daily use only if:
+- doctor passes
+- health passes
+- preflight works for at least `archivist` and `router`
+- search returns indexed markdown
+- finalize archives and reindexes successfully
+
 ## Preflight
 Use before substantial work to retrieve role-specific memory context.
 
@@ -71,3 +79,4 @@ If the agent host blocks direct Python execution inside the session sandbox:
 - `finalize` at milestones
 - `watch` only when useful
 - keep a launcher fallback for constrained environments
+- treat markdown as the only durable source of truth and indexes as caches
