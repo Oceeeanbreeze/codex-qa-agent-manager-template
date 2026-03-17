@@ -30,6 +30,7 @@ Use this matrix to capture every local parameter that matters for parity with th
 | Commands | Search command | `configs/runtime-manifest.local.yaml` | Yes | Yes | Prefer a single standard form. |
 | Commands | Index command | `configs/runtime-manifest.local.yaml` | Yes | Yes | Document the rebuild entrypoint. |
 | Commands | Finalize command | `configs/runtime-manifest.local.yaml` | Yes | Yes | Must point to the archival path. |
+| Commands | Evals command | `configs/runtime-manifest.local.yaml`, `configs/evals.local.yaml` | Recommended | Yes | Validates golden datasets and writes eval readiness reports. |
 | Commands | Watch command | `configs/runtime-manifest.local.yaml` | No | Yes | Optional but recommended. |
 | Access | Environment tiers | `configs/runtime-manifest.local.yaml`, `configs/data-access.template.yaml` | Yes | Yes | Keep production disabled by default. |
 | Access | Approval rules | `configs/data-access.template.yaml` | Yes | Yes | Match the real operator approval posture. |

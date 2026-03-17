@@ -1,0 +1,21 @@
+cases:
+  - id: retrieval-routing-wave-history
+    category: routing
+    role: router
+    query: wave routing skills
+    expected_paths:
+      - Projects/wave-2-routing-and-skill-maturity.md
+    expected_signals:
+      - routing
+      - skills
+      - starter packs
+  - id: retrieval-runtime-history
+    category: runtime
+    role: archivist
+    query: wave runtime
+    expected_paths:
+      - Projects/wave-1-runtime-stabilization.md
+    expected_signals:
+      - doctor
+      - health
+      - runtime

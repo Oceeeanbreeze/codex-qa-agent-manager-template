@@ -48,6 +48,8 @@ def run_archive(python_command: list[str], archive_script: Path, config_path: Pa
         command.extend(['--project', args.project])
     if args.remember_text:
         command.extend(['--remember-text-b64', b64(args.remember_text)])
+    if args.dry_run:
+        command.append('--dry-run')
     proc = subprocess.run(command, capture_output=True, text=True, check=True)
     return proc.stdout.strip()
 
@@ -104,6 +106,7 @@ def main() -> None:
     parser.add_argument('--remember-text', default='')
     parser.add_argument('--reindex-mode', choices=['all-active', 'archivist-only', 'none'], default='all-active')
     parser.add_argument('--fail-on-index-error', action='store_true')
+    parser.add_argument('--dry-run', action='store_true')
     args = parser.parse_args()
 
     config_path = Path(args.config).resolve()
@@ -114,8 +117,8 @@ def main() -> None:
 
     active_roles = [role.strip() for role in args.roles.split(',') if role.strip()]
     note_path = run_archive(python_command, archive_script, config_path, args)
-    indexed_roles = select_roles_for_indexing(active_roles, args.reindex_mode)
-    index_result = run_index(python_command, index_script, config_path, indexed_roles)
+    indexed_roles = [] if args.dry_run else select_roles_for_indexing(active_roles, args.reindex_mode)
+    index_result = {'indexed': [], 'errors': []} if args.dry_run else run_index(python_command, index_script, config_path, indexed_roles)
 
     if args.fail_on_index_error and index_result['errors']:
         raise SystemExit(json.dumps(index_result, ensure_ascii=False, indent=2))
@@ -127,6 +130,7 @@ def main() -> None:
                 'python_command': python_command,
                 'indexed_roles': indexed_roles,
                 'reindex_mode': args.reindex_mode,
+                'dry_run': args.dry_run,
                 'index_result': index_result,
             },
             ensure_ascii=False,

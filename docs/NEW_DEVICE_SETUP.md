@@ -61,6 +61,7 @@ Use the prompt from `docs/CODEX_BOOTSTRAP_PROMPT.md`.
 If you want Codex to guide the remaining installation in phases, continue with:
 - `docs/CODEX_ASSISTED_SETUP.md`
 - `docs/SETUP_CHAT_PROMPTS.md`
+- `docs/FIRST_HOUR_RUNBOOK.md`
 
 ## Step 7. Verify the local config
 Check:
@@ -74,6 +75,7 @@ Check:
 
 ## Step 8. Run doctor and health
 Use `docs/HEALTH_AND_DOCTOR.md` as the runtime gate.
+Use `docs/FIRST_HOUR_RUNBOOK.md` if you want the shortest reproducible first-run path.
 
 At minimum verify:
 - Python can execute
@@ -85,6 +87,12 @@ At minimum verify:
 - the embedding model is available
 - preflight can run
 - finalize can archive a test note
+- evals can write a report from the local golden datasets
+
+If the current host denies Python execution even though Python is installed:
+- switch to a validated unsandboxed operator shell
+- rerun `doctor` and `health`
+- treat that as an environment blocker, not as a repository architecture defect
 
 Suggested generic commands:
 ```powershell
@@ -115,6 +123,7 @@ The system is battle-ready only when:
 - skill-loading logic
 - memory boundary shape
 - archival and checkpoint discipline
+- Smart Monitor QA specialization guidance
 
 ## What it does not reconstruct by itself
 - private vault content

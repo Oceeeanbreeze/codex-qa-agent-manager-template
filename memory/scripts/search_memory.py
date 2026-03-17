@@ -6,6 +6,7 @@ except AttributeError:
     pass
 
 import argparse
+import fnmatch
 import json
 import re
 import sqlite3
@@ -29,6 +30,15 @@ def get_agent_profile(config: dict[str, Any], agent: str) -> dict[str, Any]:
     return profiles[agent]
 
 
+def normalize_rel_path(path: str) -> str:
+    return path.replace('\\', '/').lstrip('/')
+
+
+def should_exclude_path(path: str, patterns: list[str]) -> bool:
+    normalized = normalize_rel_path(path)
+    return any(fnmatch.fnmatch(normalized, pattern) for pattern in patterns)
+
+
 def embed_query(base_url: str, model: str, query: str) -> list[float]:
     response = httpx.post(
         f"{base_url.rstrip('/')}/api/embed",
@@ -40,44 +50,107 @@ def embed_query(base_url: str, model: str, query: str) -> list[float]:
     return payload['embeddings'][0]
 
 
+def safe_embed_query(base_url: str, model: str, query: str) -> tuple[list[float] | None, dict[str, str]]:
+    try:
+        return embed_query(base_url, model, query), {
+            'status': 'ready',
+            'detail': f'{base_url.rstrip("/")}/api/embed',
+        }
+    except Exception as exc:
+        return None, {
+            'status': 'error',
+            'detail': str(exc),
+        }
+
+
 def sanitize_fts_query(query: str) -> str:
-    terms = re.findall(r'[\w\-]{2,}', query.lower())
+    terms = re.findall(r'\w{2,}', query.lower())
     if not terms:
         return 'memory'
     return ' OR '.join(dict.fromkeys(terms))
 
 
-def lexical_search(db_path: Path, query: str, limit: int) -> list[dict[str, Any]]:
-    conn = sqlite3.connect(db_path)
-    fts_query = sanitize_fts_query(query)
-    rows = conn.execute(
-        'SELECT chunk_id, agent, path, note_title, heading, content, bm25(chunks_fts) AS score '
-        'FROM chunks_fts WHERE chunks_fts MATCH ? ORDER BY score LIMIT ?',
-        (fts_query, limit),
-    ).fetchall()
-    conn.close()
-    return [
-        {
-            'chunk_id': row[0],
-            'agent': row[1],
-            'path': row[2],
-            'note_title': row[3],
-            'heading': row[4],
-            'content': row[5],
-            'score': row[6],
+def lexical_search(db_path: Path, query: str, limit: int) -> tuple[list[dict[str, Any]], dict[str, str]]:
+    if not db_path.exists():
+        return [], {
+            'status': 'missing',
+            'detail': f'Lexical index not found: {db_path}',
         }
-        for row in rows
-    ]
+
+    conn = sqlite3.connect(db_path)
+    try:
+        fts_query = sanitize_fts_query(query)
+        rows = conn.execute(
+            'SELECT chunk_id, agent, path, note_title, heading, content, bm25(chunks_fts) AS score '
+            'FROM chunks_fts WHERE chunks_fts MATCH ? ORDER BY score LIMIT ?',
+            (fts_query, limit),
+        ).fetchall()
+    except sqlite3.OperationalError as exc:
+        return [], {
+            'status': 'error',
+            'detail': str(exc),
+        }
+    finally:
+        conn.close()
+
+    return (
+        [
+            {
+                'chunk_id': row[0],
+                'agent': row[1],
+                'path': row[2],
+                'note_title': row[3],
+                'heading': row[4],
+                'content': row[5],
+                'score': row[6],
+            }
+            for row in rows
+        ],
+        {
+            'status': 'ready',
+            'detail': str(db_path),
+        },
+    )
 
 
-def vector_search(qdrant_path: Path, collection: str, embedding: list[float], limit: int) -> list[dict[str, Any]]:
+def collection_exists(client: QdrantClient, collection: str) -> bool:
+    return collection in {item.name for item in client.get_collections().collections}
+
+
+def vector_search(
+    qdrant_path: Path, collection: str, embedding: list[float] | None, limit: int
+) -> tuple[list[dict[str, Any]], dict[str, str]]:
+    if not qdrant_path.exists():
+        return [], {
+            'status': 'missing',
+            'detail': f'Vector index not found: {qdrant_path}',
+        }
+
     client = QdrantClient(path=str(qdrant_path))
-    points = client.query_points(
-        collection_name=collection,
-        query=embedding,
-        limit=limit,
-        with_payload=True,
-    ).points
+    try:
+        if not collection_exists(client, collection):
+            return [], {
+                'status': 'missing',
+                'detail': f'Qdrant collection not found: {collection}',
+            }
+        if embedding is None:
+            return [], {
+                'status': 'skipped',
+                'detail': 'Vector search skipped because embedding generation was unavailable.',
+            }
+
+        points = client.query_points(
+            collection_name=collection,
+            query=embedding,
+            limit=limit,
+            with_payload=True,
+        ).points
+    except Exception as exc:
+        return [], {
+            'status': 'error',
+            'detail': str(exc),
+        }
+
     results = []
     for point in points:
         payload = point.payload or {}
@@ -92,7 +165,10 @@ def vector_search(qdrant_path: Path, collection: str, embedding: list[float], li
                 'score': point.score,
             }
         )
-    return results
+    return results, {
+        'status': 'ready',
+        'detail': f'{qdrant_path} :: {collection}',
+    }
 
 
 def reciprocal_rank_fusion(*result_sets: list[dict[str, Any]], limit: int) -> list[dict[str, Any]]:
@@ -114,6 +190,61 @@ def reciprocal_rank_fusion(*result_sets: list[dict[str, Any]], limit: int) -> li
     return output
 
 
+def dedupe_results(items: list[dict[str, Any]], limit: int) -> list[dict[str, Any]]:
+    deduped: list[dict[str, Any]] = []
+    seen_keys: set[tuple[str, str, str]] = set()
+    for item in items:
+        dedupe_key = (
+            item.get('path', ''),
+            item.get('note_title', ''),
+            item.get('heading', ''),
+        )
+        if dedupe_key in seen_keys:
+            continue
+        seen_keys.add(dedupe_key)
+        deduped.append(item)
+        if len(deduped) >= limit:
+            break
+    return deduped
+
+
+def filter_excluded_results(items: list[dict[str, Any]], patterns: list[str]) -> list[dict[str, Any]]:
+    if not patterns:
+        return items
+    return [item for item in items if not should_exclude_path(item.get('path', ''), patterns)]
+
+
+def build_search_status(
+    results: list[dict[str, Any]],
+    lexical_diag: dict[str, str],
+    vector_diag: dict[str, str],
+    embedding_diag: dict[str, str],
+) -> tuple[str, str]:
+    if results:
+        return 'ready', 'Indexed memory returned matching results.'
+
+    lexical_status = lexical_diag.get('status', 'unknown')
+    vector_status = vector_diag.get('status', 'unknown')
+    embedding_status = embedding_diag.get('status', 'unknown')
+
+    if lexical_status == 'missing' and vector_status == 'missing':
+        return 'uninitialized', 'Run indexing for this role to create lexical and vector stores.'
+
+    if lexical_status == 'error' or vector_status == 'error':
+        return 'degraded', 'Review index diagnostics before trusting retrieval output.'
+
+    if embedding_status == 'error' and vector_status not in {'missing', 'skipped'}:
+        return 'degraded', 'Embedding generation failed; review the embedding endpoint and model.'
+
+    if lexical_status == 'ready' and vector_status in {'ready', 'missing', 'skipped'}:
+        return 'empty', 'Retrieval succeeded but no matching indexed content was found for this query.'
+
+    if lexical_status == 'missing' or vector_status == 'missing':
+        return 'partial', 'Only part of the retrieval stack is initialized for this role.'
+
+    return 'empty', 'No matching indexed content was found for this query.'
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', required=True)
@@ -126,18 +257,43 @@ def main() -> None:
     storage_dir = Path(config['storage_dir']) / Path(profile['storage_subdir'])
     sqlite_path = storage_dir / 'memory.sqlite3'
     qdrant_path = storage_dir / 'qdrant'
+    global_patterns = config.get('search', {}).get('exclude_path_patterns', [])
+    agent_patterns = profile.get('exclude_path_patterns', [])
+    excluded_patterns = [*global_patterns, *agent_patterns]
 
-    embedding = embed_query(config['ollama']['base_url'], config['ollama']['model'], args.query)
     search_cfg = config['search']
-    lexical = lexical_search(sqlite_path, args.query, search_cfg['lexical_top_k'])
-    vector = vector_search(qdrant_path, profile['collection'], embedding, search_cfg['vector_top_k'])
-    fused = reciprocal_rank_fusion(lexical, vector, limit=search_cfg['final_top_k'])
+    lexical, lexical_diag = lexical_search(sqlite_path, args.query, search_cfg['lexical_top_k'])
+
+    embedding = None
+    embedding_diag = {
+        'status': 'skipped',
+        'detail': 'Embedding generation skipped because vector search was not required.',
+    }
+    if qdrant_path.exists():
+        embedding, embedding_diag = safe_embed_query(config['ollama']['base_url'], config['ollama']['model'], args.query)
+
+    vector, vector_diag = vector_search(qdrant_path, profile['collection'], embedding, search_cfg['vector_top_k'])
+    fused = reciprocal_rank_fusion(lexical, vector, limit=search_cfg['final_top_k'] * 2)
+    fused = filter_excluded_results(fused, excluded_patterns)
+    fused = dedupe_results(fused, search_cfg['final_top_k'])
+    overall_status, next_action = build_search_status(fused, lexical_diag, vector_diag, embedding_diag)
     print(
         json.dumps(
             {
                 'agent': args.agent,
                 'query_hint': profile.get('query_hint', ''),
                 'query': args.query,
+                'status': overall_status,
+                'next_action': next_action,
+                'diagnostics': {
+                    'lexical': lexical_diag,
+                    'embedding': embedding_diag,
+                    'vector': vector_diag,
+                    'exclusions': {
+                        'status': 'ready',
+                        'detail': ', '.join(excluded_patterns) if excluded_patterns else 'no exclusions configured',
+                    },
+                },
                 'results': fused,
             },
             ensure_ascii=False,

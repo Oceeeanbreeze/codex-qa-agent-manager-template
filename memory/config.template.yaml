@@ -16,6 +16,7 @@ search:
   vector_top_k: 8
   lexical_top_k: 8
   final_top_k: 8
+  exclude_path_patterns: []
 archiving:
   inbox_dir: Inbox/
   conversations_dir: Conversations/
@@ -39,6 +40,7 @@ agents:
       - Decisions/
       - Logs/
     query_hint: vault structure, exact remembered statements, note hygiene, knowledge organization
+    exclude_path_patterns: []
   router:
     collection: agent_router_memory
     storage_subdir: agents/router
@@ -50,6 +52,7 @@ agents:
       - Notes/
       - Important/
     query_hint: routing priorities, task classification, risk, acceptance criteria
+    exclude_path_patterns: []
   researcher:
     collection: agent_researcher_memory
     storage_subdir: agents/researcher
@@ -62,6 +65,7 @@ agents:
       - Decisions/
       - Important/
     query_hint: investigations, code traces, findings, prior incidents
+    exclude_path_patterns: []
   architect:
     collection: agent_architect_memory
     storage_subdir: agents/architect
@@ -73,6 +77,7 @@ agents:
       - Playbooks/
       - Important/
     query_hint: architecture decisions, invariants, contracts, tradeoffs
+    exclude_path_patterns: []
   implementer:
     collection: agent_implementer_memory
     storage_subdir: agents/implementer
@@ -83,6 +88,7 @@ agents:
       - Playbooks/
       - Notes/
     query_hint: implementation patterns, selectors, seams, code conventions
+    exclude_path_patterns: []
   reviewer:
     collection: agent_reviewer_memory
     storage_subdir: agents/reviewer
@@ -94,6 +100,7 @@ agents:
       - Playbooks/
       - Important/
     query_hint: regressions, edge cases, postmortems, failure patterns
+    exclude_path_patterns: []
   tester:
     collection: agent_tester_memory
     storage_subdir: agents/tester
@@ -105,6 +112,7 @@ agents:
       - Projects/
       - Notes/
     query_hint: checklists, repro steps, observed failures, verification notes
+    exclude_path_patterns: []
   test-strategist:
     collection: agent_test_strategist_memory
     storage_subdir: agents/test-strategist
@@ -116,6 +124,7 @@ agents:
       - Projects/
       - Important/
     query_hint: test pyramid, coverage strategy, ROI, suite design
+    exclude_path_patterns: []
   test-automation-engineer:
     collection: agent_test_automation_engineer_memory
     storage_subdir: agents/test-automation-engineer
@@ -127,6 +136,7 @@ agents:
       - Logs/
       - Notes/
     query_hint: Playwright patterns, API tests, flake reduction, helpers
+    exclude_path_patterns: []
   qa-browser:
     collection: agent_qa_browser_memory
     storage_subdir: agents/qa-browser
@@ -139,3 +149,4 @@ agents:
       - Notes/
       - Important/
     query_hint: browser repro, auth flows, UI regressions, exploratory QA
+    exclude_path_patterns: []

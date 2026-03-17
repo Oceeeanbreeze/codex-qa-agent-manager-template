@@ -1,0 +1,22 @@
+cases:
+  - id: browser-validation-auth-vs-stand
+    category: browser
+    surface: Smart Monitor login and overview entry
+    expected_browser_checks:
+      - distinguish auth failure from stand rendering failure
+      - capture the exact blocking page state
+      - decide whether automation should be skipped or updated
+    expected_blocker_labels:
+      - auth issue
+      - environment blocker
+      - product regression
+  - id: browser-validation-app-not-found
+    category: browser
+    surface: Smart Monitor module route that returns Application Not Found
+    expected_browser_checks:
+      - confirm the route and visible error state
+      - label it as route availability or stand scope issue before blaming selectors
+      - keep browser evidence separate from product assumptions
+    expected_blocker_labels:
+      - environment blocker
+      - route or stand mismatch

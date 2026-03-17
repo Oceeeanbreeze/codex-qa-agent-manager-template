@@ -23,13 +23,16 @@ Use it to identify the current blocker, choose the right command, and jump to th
 - `preflight`
 - `index`
 - `finalize`
+- `evals`
 - `watch`
 
 ## First documents
 - `docs/FULL_RECONSTRUCTION_GUIDE.md`
 - `docs/RUNTIME_PARAMETER_MATRIX.md`
 - `docs/CODEX_ASSISTED_SETUP.md`
+- `docs/SMART_MONITOR_QA_AUTOMATION_PLAYBOOK.md`
 - `docs/HEALTH_AND_DOCTOR.md`
+- `docs/EVALS_RUNBOOK.md`
 - `docs/BATTLE_READY_CHECKLIST.md`
 
 ## Operational rule

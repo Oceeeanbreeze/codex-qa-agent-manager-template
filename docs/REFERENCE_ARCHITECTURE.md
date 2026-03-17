@@ -56,6 +56,7 @@ Evals and reports
 
 ## Required subsystems
 - orchestration and role prompts
+- local skills for browser QA, HTML analysis, automation handoff, and Smart Monitor QA specialization
 - memory and archival
 - access policy and data boundaries
 - evaluation and observability
@@ -65,6 +66,8 @@ Evals and reports
 ## First documents to open
 - `docs/AGENT_SYSTEM_OPERATIONS_DASHBOARD.md`
 - `docs/INSTANT_SETUP.md`
+- `docs/SMART_MONITOR_QA_AUTOMATION_PLAYBOOK.md`
+- `docs/HTML_LAB_ANALYSIS_WORKFLOW.md`
 - `docs/DATA_BOUNDARIES_AND_ACCESS.md`
 - `docs/EVALUATION_AND_OBSERVABILITY.md`
 - `docs/BACKUP_AND_RECOVERY.md`

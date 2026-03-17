@@ -1,0 +1,3 @@
+display_name: Agent Browser
+short_description: Analyze pages and HTML for QA and automation
+default_prompt: Open the page or HTML artifact, extract structure and flows, identify key scenarios, and propose test and automation outputs grounded in the actual DOM.

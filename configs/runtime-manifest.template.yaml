@@ -27,6 +27,7 @@ commands:
   index: py -3 .\memory\scripts\index_memory.py --config .\memory\config.yaml --agent archivist
   finalize: py -3 .\memory\scripts\finalize_task.py --config .\memory\config.yaml --title "<TITLE>" --user-text "<USER_TEXT>" --assistant-text "<ASSISTANT_TEXT>" --roles archivist
   watch: <OPTIONAL_WATCH_COMMAND>
+  evals: powershell -ExecutionPolicy Bypass -File .\tools\run-evals.ps1 -ConfigPath .\configs\evals.local.yaml -Strict
 
 environments:
   local:

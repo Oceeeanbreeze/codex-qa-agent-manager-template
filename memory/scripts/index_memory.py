@@ -10,6 +10,7 @@ import hashlib
 import json
 import re
 import sqlite3
+import uuid
 from pathlib import Path
 from typing import Any
 
@@ -133,7 +134,8 @@ def embed_texts(base_url: str, model: str, texts: list[str]) -> list[list[float]
 
 
 def stable_point_id(chunk_id: str) -> str:
-    return hashlib.sha1(chunk_id.encode('utf-8')).hexdigest()
+    # Qdrant Local expects UUID-compatible point ids for string identifiers.
+    return str(uuid.uuid5(uuid.NAMESPACE_URL, chunk_id))
 
 
 def init_sqlite(db_path: Path) -> sqlite3.Connection:

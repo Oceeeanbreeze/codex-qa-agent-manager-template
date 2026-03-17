@@ -35,6 +35,8 @@ It should verify:
 - Python works
 - embedding service is reachable
 - required agent profiles exist
+- index smoke can run
+- finalize smoke can run without polluting durable notes, for example through `--dry-run`
 
 ## Battle-ready memory gate
 Memory is considered ready for daily use only if:
@@ -47,10 +49,35 @@ Memory is considered ready for daily use only if:
 ## Preflight
 Use before substantial work to retrieve role-specific memory context.
 Generic script included: `memory/scripts/preflight_memory.py`
+On first run, a role may legitimately return no indexed results yet.
+Treat an explicit empty-state diagnostic as an indexing task, not as a routing or architecture defect.
+Use the preflight summary to distinguish:
+- `ready`: matching indexed context was found
+- `empty`: the role index is healthy but nothing matched the query
+- `uninitialized`: the role index has not been built yet
+- `partial` or `degraded`: part of the retrieval stack needs attention
 
 ## Search
 Use during work for role-specific targeted retrieval.
 Generic script included: `memory/scripts/search_memory.py`
+If lexical or vector storage for a role has not been created yet, the search path should degrade gracefully and report which index is missing.
+Search output should include:
+- retrieval status
+- per-subsystem diagnostics for lexical, embedding, and vector layers
+- the next recommended operator action when the role memory is empty or uninitialized
+- any active exclusion patterns that intentionally hide low-value notes from retrieval
+
+## Retrieval noise control
+Use retrieval exclusions sparingly to reduce low-value repeats without destroying archival completeness.
+Good candidates for exclusion:
+- smoke-only runtime notes
+- one-off verification captures that are useful to keep but poor as default retrieval context
+- repetitive operational noise that competes with milestone or decision notes
+
+Prefer:
+- keeping the note archived
+- excluding it only from retrieval for specific roles
+- documenting the exclusion pattern in config rather than deleting history
 
 ## Index
 Prefer changed-path incremental indexing instead of broad full rebuilds.

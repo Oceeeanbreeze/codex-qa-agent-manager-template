@@ -12,18 +12,20 @@ Read in this order:
 4. docs/FULL_RECONSTRUCTION_GUIDE.md
 5. docs/RUNTIME_PARAMETER_MATRIX.md
 6. docs/RUNTIME_INSTALLATION.md
-7. docs/CODEX_ASSISTED_SETUP.md
-8. docs/REFERENCE_ARCHITECTURE.md
-9. docs/AGENT_SYSTEM_OPERATIONS_DASHBOARD.md
-10. docs/NEW_DEVICE_SETUP.md
-11. docs/DATA_BOUNDARIES_AND_ACCESS.md
-12. docs/MEMORY_OPERATIONS_RUNBOOK.md
-13. docs/EVALUATION_AND_OBSERVABILITY.md
-14. docs/BACKUP_AND_RECOVERY.md
-15. docs/SETTINGS_PARITY_AUDIT.md
-16. memory/ROLE_TOOLING.md
-17. configs/role-profiles.template.yaml
-18. configs/runtime-manifest.local.yaml if it exists
+7. docs/FIRST_HOUR_RUNBOOK.md
+8. docs/CODEX_ASSISTED_SETUP.md
+9. docs/REFERENCE_ARCHITECTURE.md
+10. docs/AGENT_SYSTEM_OPERATIONS_DASHBOARD.md
+11. docs/SMART_MONITOR_QA_AUTOMATION_PLAYBOOK.md
+12. docs/NEW_DEVICE_SETUP.md
+13. docs/DATA_BOUNDARIES_AND_ACCESS.md
+14. docs/MEMORY_OPERATIONS_RUNBOOK.md
+15. docs/EVALUATION_AND_OBSERVABILITY.md
+16. docs/BACKUP_AND_RECOVERY.md
+17. docs/SETTINGS_PARITY_AUDIT.md
+18. memory/ROLE_TOOLING.md
+19. configs/role-profiles.template.yaml
+20. configs/runtime-manifest.local.yaml if it exists
 
 Then do the following:
 - verify that memory/config.yaml exists
@@ -32,6 +34,7 @@ Then do the following:
 - if configs/runtime-manifest.local.yaml does not exist, create it from configs/runtime-manifest.template.yaml using safe local defaults
 - keep production access disabled
 - preserve the existing role system, routing model, role-profile logic, and memory boundaries
+- preserve the Smart Monitor QA specialization docs and role guidance
 - treat markdown as source of truth and memory indexes as rebuildable caches
 - use the smallest safe role chain for future work
 - do not try to finish full setup in one turn; instead, define the current setup phase and stop with the smallest exact next action
@@ -42,6 +45,7 @@ When setup review is complete, summarize:
 - what is already configured
 - what still requires local installation or credentials
 - what command I should run first if the memory environment looks broken
+- what command I should run first if the eval layer looks broken
 - whether the current public repo is sufficient to reproduce the same system shape safely
 - what the next setup phase should be
 ```

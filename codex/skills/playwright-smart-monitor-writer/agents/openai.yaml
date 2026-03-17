@@ -1,0 +1,3 @@
+display_name: Playwright Smart Monitor Writer
+short_description: Write Smart Monitor Playwright tests to local standards
+default_prompt: Convert the Smart Monitor scenario into a Playwright test that follows the local standards for auth reuse, test ids, helpers, steps, and review readiness.

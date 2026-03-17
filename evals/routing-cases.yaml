@@ -1,0 +1,20 @@
+cases:
+  - id: routing-smart-monitor-feature-analysis
+    category: smart-monitor
+    prompt: Analyze a Smart Monitor feature, identify user-visible risks, and propose the smallest safe QA role chain before automation starts.
+    expected_route: feature
+    expected_roles:
+      - archivist
+      - researcher
+      - test-strategist
+    rationale: Feature understanding and test-layer choice matter before automation.
+  - id: routing-browser-regression-check
+    category: browser
+    prompt: Reproduce a flaky Smart Monitor UI regression in the browser and collect evidence before deciding whether Playwright should be updated.
+    expected_route: ui-validation
+    expected_roles:
+      - archivist
+      - researcher
+      - qa-browser
+      - reviewer
+    rationale: Browser evidence should come before automation changes for a flaky UI regression.

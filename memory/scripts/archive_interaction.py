@@ -74,6 +74,18 @@ def merge_frontmatter(existing_frontmatter: dict, new_frontmatter: dict) -> dict
     return merged
 
 
+def infer_capture_kind(category: str, title: str, tags: list[str]) -> str:
+    normalized_title = title.lower()
+    normalized_tags = {tag.lower() for tag in tags}
+    if category == 'projects':
+        return 'milestone'
+    if category == 'important':
+        return 'important'
+    if 'smoke' in normalized_title or 'smoke' in normalized_tags:
+        return 'smoke'
+    return 'general'
+
+
 def append_or_create(note_path: Path, section: str, block: str, frontmatter: dict) -> None:
     if note_path.exists():
         existing_frontmatter, body = read_frontmatter_and_body(note_path)
@@ -98,6 +110,7 @@ def main() -> None:
     parser.add_argument('--tags', default='memory/conversation')
     parser.add_argument('--remember-text', default='')
     parser.add_argument('--remember-text-b64', default='')
+    parser.add_argument('--dry-run', action='store_true')
     args = parser.parse_args()
 
     user_text = decode_text(args.user_text, args.user_text_b64)
@@ -120,6 +133,7 @@ def main() -> None:
         'tags': tag_list,
         'importance': args.importance,
         'agent': 'archivist',
+        'capture_kind': infer_capture_kind(args.category, args.title, tag_list),
     }
     if args.project:
         frontmatter['project'] = args.project
@@ -132,6 +146,9 @@ def main() -> None:
     if remember_text:
         block_parts.append(f"**Verbatim**\n\n{remember_text}")
     block = f"**Captured at**: {now.isoformat()}\n\n" + '\n\n'.join(block_parts)
+    if args.dry_run:
+        print(str(note_path))
+        return
     append_or_create(note_path, args.title, block, frontmatter)
     print(str(note_path))
 

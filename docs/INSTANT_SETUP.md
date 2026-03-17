@@ -19,13 +19,15 @@ Read in this order:
 1. `docs/FULL_RECONSTRUCTION_GUIDE.md`
 2. `docs/RUNTIME_PARAMETER_MATRIX.md`
 3. `docs/RUNTIME_INSTALLATION.md`
-4. `docs/REFERENCE_ARCHITECTURE.md`
-5. `docs/AGENT_SYSTEM_OPERATIONS_DASHBOARD.md`
-6. `docs/DATA_BOUNDARIES_AND_ACCESS.md`
-7. `docs/MEMORY_OPERATIONS_RUNBOOK.md`
-8. `docs/EVALUATION_AND_OBSERVABILITY.md`
-9. `docs/BACKUP_AND_RECOVERY.md`
-10. `docs/SETTINGS_PARITY_AUDIT.md`
+4. `docs/FIRST_HOUR_RUNBOOK.md`
+5. `docs/REFERENCE_ARCHITECTURE.md`
+6. `docs/AGENT_SYSTEM_OPERATIONS_DASHBOARD.md`
+7. `docs/SMART_MONITOR_QA_AUTOMATION_PLAYBOOK.md`
+8. `docs/DATA_BOUNDARIES_AND_ACCESS.md`
+9. `docs/MEMORY_OPERATIONS_RUNBOOK.md`
+10. `docs/EVALUATION_AND_OBSERVABILITY.md`
+11. `docs/BACKUP_AND_RECOVERY.md`
+12. `docs/SETTINGS_PARITY_AUDIT.md`
 
 If you want Codex to help complete setup phase by phase, also read:
 - `docs/CODEX_ASSISTED_SETUP.md`
@@ -70,6 +72,7 @@ Make these standard operator actions:
 - `search`
 - `index`
 - `finalize`
+- `evals`
 - `watch`
 
 Record the actual working commands in `configs/runtime-manifest.local.yaml`.
@@ -95,7 +98,9 @@ Do not commit live vault content, generated indexes, logs, traces, screenshots, 
 Do not call the reconstructed system battle-ready until:
 - doctor passes
 - health passes
+- constrained-host blockers are resolved or explicitly isolated
 - memory preflight works
 - finalize works
+- evals pass
 - the battle-ready checklist is green
 - the Git parity checklist stays green on a clean clone

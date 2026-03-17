@@ -47,6 +47,27 @@ def run_search(python_command: list[str], search_script: Path, config_path: Path
     return json.loads(proc.stdout)
 
 
+def summarize_preflight(results: list[dict[str, Any]]) -> dict[str, int]:
+    summary = {
+        'ready': 0,
+        'empty': 0,
+        'partial': 0,
+        'uninitialized': 0,
+        'degraded': 0,
+        'error': 0,
+    }
+    for result in results:
+        if result.get('error'):
+            summary['error'] += 1
+            continue
+        status = result.get('status', 'error')
+        if status not in summary:
+            summary['error'] += 1
+            continue
+        summary[status] += 1
+    return summary
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', required=True)
@@ -76,7 +97,19 @@ def main() -> None:
             continue
         results.append(result)
 
-    print(json.dumps({'task': args.task, 'roles': roles, 'python_command': python_command, 'preflight': results}, ensure_ascii=False, indent=2))
+    print(
+        json.dumps(
+            {
+                'task': args.task,
+                'roles': roles,
+                'python_command': python_command,
+                'summary': summarize_preflight(results),
+                'preflight': results,
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+    )
 
 
 if __name__ == '__main__':

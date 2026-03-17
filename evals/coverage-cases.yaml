@@ -1,0 +1,18 @@
+cases:
+  - id: coverage-job-scheduler-core
+    category: smart-monitor
+    feature: Job Scheduler list visibility and search availability
+    expected_layers:
+      - smoke
+      - critical path
+    expected_gaps:
+      - browser validation for selector drift if shell changes
+  - id: coverage-course-lab-intake
+    category: course-automation
+    feature: Smart Monitor training lab converted into QA assets and automation candidates
+    expected_layers:
+      - critical path
+      - rich flows
+      - regression guards
+    expected_gaps:
+      - negative scenarios may require follow-up once expected outcomes are confirmed

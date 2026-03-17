@@ -19,9 +19,11 @@ configs/*.local.yaml
 *.key
 *.pem
 logs/
+reports/
 artifacts/
 playwright-report/
 test-results/
+deliverables/
 node_modules/
 __pycache__/
 .DS_Store

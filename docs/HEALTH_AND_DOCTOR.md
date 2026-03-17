@@ -21,6 +21,9 @@ Doctor should verify:
 - SQLite can create or open the lexical store
 - vector storage location can be created or opened
 - required role profiles and config templates are present
+- launcher failures are reported with an actionable reason, for example `py.exe exists but no Python runtime is installed`
+- shell checks may use `CODEX_PYTHON`, `PYTHON`, or `PYTHON_EXECUTABLE` as an explicit runtime override
+- endpoint reachability and CLI visibility are reported separately when the embedding service is alive but its shell command is not on `PATH`
 
 ## Health
 Use `health` when the system is already bootstrapped and you want a focused readiness check.
@@ -36,7 +39,9 @@ Health should verify:
 - markdown roots expected by the roles exist
 - embedding provider is reachable
 - indexes can be updated
-- archival command can run
+- archival command can run safely in smoke mode such as `finalize --dry-run`
+- first-run retrieval can fail gracefully with empty results when a role index has not been created yet
+- shell diagnostics distinguish `runtime missing`, `index uninitialized`, and `retrieval degraded`
 
 ## Minimum pass criteria
 The system is not considered battle-ready until all of these are true:
@@ -51,3 +56,19 @@ The system is not considered battle-ready until all of these are true:
 
 ## Operator rule
 If `doctor` fails, stop expanding the architecture discussion and fix the runtime first.
+
+## First-run note
+On a newly bootstrapped workspace, some role memories may still be empty.
+`search` and `preflight` should not be treated as architecture failures just because a role-specific index has not been created yet.
+They should either return results from existing markdown or return an explicit empty-state diagnostic that tells the operator to run indexing for that role.
+
+## Constrained-host note
+If Python is installed but the current host still reports execution denial, treat that as an environment restriction.
+Use an unsandboxed operator shell for the memory commands and keep that blocker separate from architecture defects in the repository itself.
+
+## Retrieval maturity note
+Healthy retrieval does not only mean "returns something".
+It should also:
+- return explicit status when a role is uninitialized
+- expose lexical, embedding, vector, and exclusion diagnostics
+- avoid surfacing low-value operational noise ahead of milestone or decision notes

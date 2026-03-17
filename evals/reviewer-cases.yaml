@@ -1,0 +1,18 @@
+cases:
+  - id: reviewer-flaky-waits
+    category: playwright
+    change_summary: A new Playwright test adds fixed sleeps and fragile CSS selectors for a Smart Monitor dashboard flow.
+    expected_findings:
+      - replace sleeps with explicit expectations or loader-aware waits
+      - prefer stable selectors such as data-test-subj
+    expected_risks:
+      - flaky browser automation
+      - selector drift
+  - id: reviewer-missing-negative-case
+    category: testcase
+    change_summary: A manual testcase covers only the happy path for a Smart Monitor form and never checks invalid input or empty-state behavior.
+    expected_findings:
+      - missing negative coverage
+      - incomplete observable expected results
+    expected_risks:
+      - false confidence in validation behavior
